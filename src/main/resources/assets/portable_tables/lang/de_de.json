@@ -1,3 +1,5 @@
 {
-  "item.portable_tables.portable_crafting_table": "Tragbare Werkbank"
+  "item.portable_tables.portable_crafting_table": "Tragbare Werkbank",
+  "key.portable_tables.open_craft": "Tragbare Werkbank öffnen",
+  "key.categories.portable_tables": "Portable Tables"
 }

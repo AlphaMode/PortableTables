@@ -26,7 +26,7 @@ public class CraftingWidget extends ClickableWidget {
 
     @Override
     public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        MinecraftClient.getInstance().getItemRenderer().renderGuiItemIcon(new ItemStack(Items.CRAFTING_TABLE), this.x, this.y);
+        MinecraftClient.getInstance().getItemRenderer().renderGuiItemIcon(new ItemStack(Items.CRAFTING_TABLE),  this.x, isHovered() ? this.y - 1 : this.y);
     }
 
     public void setPos(int x, int y) {
