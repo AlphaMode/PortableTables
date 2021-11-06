@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.alphamode.portablecrafting.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "InventoryScreenMixin",
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

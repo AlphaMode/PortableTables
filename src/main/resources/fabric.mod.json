@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "portablecrafting",
+  "version": "${version}",
+  "name": "Portablecrafting",
+  "description": "",
+  "authors": [
+    "AlphaMode"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/portablecrafting/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "me.alphamode.portablecrafting.client.PortableCraftingClient"
+    ],
+    "main": [
+      "me.alphamode.portablecrafting.PortableCrafting"
+    ]
+  },
+  "mixins": [
+    "portablecrafting.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.12.5",
+    "fabric": "*",
+    "minecraft": "1.17.1"
+  }
+}
