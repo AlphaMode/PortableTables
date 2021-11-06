@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "portablecrafting",
+  "id": "portabletables",
   "version": "${version}",
-  "name": "Portablecrafting",
+  "name": "Portable Tables",
   "description": "",
   "authors": [
     "AlphaMode"
@@ -23,7 +23,7 @@
     "portablecrafting.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.12.5",
+    "fabricloader": ">=0.9.0",
     "fabric": "*",
     "minecraft": "1.17.1"
   }
