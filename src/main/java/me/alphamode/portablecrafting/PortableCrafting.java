@@ -19,5 +19,8 @@ public class PortableCrafting implements ModInitializer {
     public void onInitialize() {
         PORTABLECRAFTING = Registry.register(Registry.ITEM, new Identifier("portable_tables", "portable_crafting_table"), new PortableTable());
         ServerPlayNetworking.registerGlobalReceiver(new Identifier("portable_tables", "open"), (server, player, handler, buf, responseSender) -> PortableCraftingHandler.openTable(player));
+        TagFactory.ITEM.create(new Identifier("c:wood_sticks"));
+        TagFactory.ITEM.create(new Identifier("c:wooden_rods"));
+        TagFactory.ITEM.create(new Identifier("c:workbench"));
     }
 }
