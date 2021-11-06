@@ -3,7 +3,7 @@
   "id": "portabletables",
   "version": "${version}",
   "name": "Portable Tables",
-  "description": "",
+  "description": "A mod thats adds portable workbench's",
   "authors": [
     "AlphaMode"
   ],
