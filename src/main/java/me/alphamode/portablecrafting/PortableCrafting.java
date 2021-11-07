@@ -22,5 +22,6 @@ public class PortableCrafting implements ModInitializer {
         TagFactory.ITEM.create(new Identifier("c:wood_sticks"));
         TagFactory.ITEM.create(new Identifier("c:wooden_rods"));
         TagFactory.ITEM.create(new Identifier("c:workbench"));
+        TagFactory.ITEM.create(new Identifier("c:workbenches"));
     }
 }
