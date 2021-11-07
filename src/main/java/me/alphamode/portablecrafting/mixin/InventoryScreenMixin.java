@@ -45,9 +45,8 @@ public abstract class InventoryScreenMixin extends HandledScreen<PlayerScreenHan
 
     @Inject(method = "method_19891", at = @At("RETURN"))
     public void onOpen(CallbackInfo ci) {
-        if(!MinecraftClient.getInstance().player.getInventory().contains(PortableCrafting.WORKBENCH)) {
+        if(craftingWidget == null)
             return;
-        }
         if(recipeBook.isOpen()) {
             craftingWidget.setPos(this.width / 2 + 120, this.height / 2 - 20);
         } else {
