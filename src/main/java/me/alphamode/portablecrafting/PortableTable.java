@@ -10,16 +10,22 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
+import java.util.function.Consumer;
+
 public class PortableTable extends Item {
-    public PortableTable() {
+
+    private final Consumer<PlayerEntity> open;
+
+    public PortableTable(Consumer<PlayerEntity> player) {
         super(new FabricItemSettings().group(ItemGroup.MISC));
+        this.open = player;
     }
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if(world.isClient())
             return TypedActionResult.pass(user.getStackInHand(hand));
-        PortableCraftingHandler.openTable(user);
+        open.accept(user);
         return TypedActionResult.success(user.getStackInHand(hand));
     }
 }

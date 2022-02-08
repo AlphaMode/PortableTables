@@ -15,6 +15,8 @@ import net.minecraft.util.Identifier;
 
 public class CraftingWidget extends ClickableWidget {
 
+    private boolean visible = false;
+
     public CraftingWidget() {
         super(0,0, 15, 15, new TranslatableText(""));
     }
@@ -26,7 +28,8 @@ public class CraftingWidget extends ClickableWidget {
 
     @Override
     public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        MinecraftClient.getInstance().getItemRenderer().renderGuiItemIcon(new ItemStack(Items.CRAFTING_TABLE),  this.x, isHovered() ? this.y - 1 : this.y);
+        if(isVisible())
+            MinecraftClient.getInstance().getItemRenderer().renderGuiItemIcon(new ItemStack(Items.CRAFTING_TABLE),  this.x, isHovered() ? this.y - 1 : this.y);
     }
 
     public void setPos(int x, int y) {
@@ -37,5 +40,20 @@ public class CraftingWidget extends ClickableWidget {
     @Override
     public void onClick(double mouseX, double mouseY) {
         ClientPlayNetworking.send(new Identifier("portable_tables", "open"), PacketByteBufs.empty());
+    }
+
+    @Override
+    protected boolean clicked(double mouseX, double mouseY) {
+        if(isVisible())
+            return super.clicked(mouseX, mouseY);
+        return false;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 }

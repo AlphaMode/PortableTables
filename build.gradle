@@ -22,6 +22,32 @@ dependencies {
     modRuntimeOnly "com.terraformersmc:modmenu:2.0.2"
 }
 
+loom {
+    sourceSets {
+        main {
+            resources {
+                srcDir("src/generated/resources")
+                exclude("src/generated/resources/.cache")
+            }
+        }
+    }
+}
+
+loom {
+    runs {
+        datagen {
+            client()
+
+            name "Data Generation"
+            vmArg "-Dfabric-api.datagen"
+            vmArg "-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}"
+
+            runDir "build/datagen"
+        }
+    }
+}
+
+
 processResources {
     inputs.property "version", project.version
     filteringCharset "UTF-8"
@@ -31,7 +57,7 @@ processResources {
     }
 }
 
-def targetJavaVersion = 16
+def targetJavaVersion = 17
 tasks.withType(JavaCompile).configureEach {
     // ensure that the encoding is set to UTF-8, no matter what the system default is
     // this fixes some edge cases with special characters not displaying correctly

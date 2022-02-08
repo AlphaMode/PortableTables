@@ -14,14 +14,12 @@ public class PortableCrafting implements ModInitializer {
     public static PortableTable PORTABLECRAFTING;
 
     public static final Tag.Identified<Item> WORKBENCH = TagFactory.ITEM.create(new Identifier("c:portable_workbench"));
+    public static final Tag.Identified<Item> FURNACE = TagFactory.ITEM.create(new Identifier("c:portable_furnace"));
 
     @Override
     public void onInitialize() {
-        PORTABLECRAFTING = Registry.register(Registry.ITEM, new Identifier("portable_tables", "portable_crafting_table"), new PortableTable());
+        PORTABLECRAFTING = Registry.register(Registry.ITEM, new Identifier("portable_tables", "portable_crafting_table"), new PortableTable(PortableCraftingHandler::openTable));
         ServerPlayNetworking.registerGlobalReceiver(new Identifier("portable_tables", "open"), (server, player, handler, buf, responseSender) -> PortableCraftingHandler.openTable(player));
-        TagFactory.ITEM.create(new Identifier("c:wood_sticks"));
-        TagFactory.ITEM.create(new Identifier("c:wooden_rods"));
-        TagFactory.ITEM.create(new Identifier("c:workbench"));
-        TagFactory.ITEM.create(new Identifier("c:workbenches"));
+        PortableTags.registerTags();
     }
 }
