@@ -18,8 +18,12 @@ public class PortableCrafting implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        PORTABLECRAFTING = Registry.register(Registry.ITEM, new Identifier("portable_tables", "portable_crafting_table"), new PortableTable(PortableCraftingHandler::openTable));
-        ServerPlayNetworking.registerGlobalReceiver(new Identifier("portable_tables", "open"), (server, player, handler, buf, responseSender) -> PortableCraftingHandler.openTable(player));
+        PORTABLECRAFTING = Registry.register(Registry.ITEM, asResource("portable_crafting_table"), new PortableTable(PortableCraftingHandler::openTable));
+        ServerPlayNetworking.registerGlobalReceiver(asResource("open"), (server, player, handler, buf, responseSender) -> PortableCraftingHandler.openTable(player));
         PortableTags.registerTags();
+    }
+
+    public static Identifier asResource(String path) {
+        return new Identifier("portable_tables", path);
     }
 }

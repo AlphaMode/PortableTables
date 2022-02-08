@@ -5,6 +5,7 @@ import me.alphamode.portablecrafting.PortableTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.util.registry.Registry;
 
 public class TagGen extends FabricTagProvider<Item> {
@@ -21,7 +22,11 @@ public class TagGen extends FabricTagProvider<Item> {
 
     @Override
     protected void generateTags() {
-        getOrCreateTagBuilder(PortableTags.WORKBENCH).add(PortableCrafting.PORTABLECRAFTING);
+        getOrCreateTagBuilder(PortableTags.PORTABLE_WORKBENCH).add(PortableCrafting.PORTABLECRAFTING);
+        getOrCreateTagBuilder(PortableTags.WOODEN_RODS);
+        getOrCreateTagBuilder(PortableTags.STICKS).add(Items.STICK).addTag(PortableTags.WOODEN_RODS);
+        getOrCreateTagBuilder(PortableTags.WORKBENCHES);
+        getOrCreateTagBuilder(PortableTags.WORKBENCH).add(Items.CRAFTING_TABLE).addTag(PortableTags.WORKBENCHES);
 //        getOrCreateTagBuilder(PortableTags.FURNACE).add(PortableCrafting.PORTABLEFURNACE);
     }
 }

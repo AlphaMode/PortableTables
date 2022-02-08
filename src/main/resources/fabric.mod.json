@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "portabletables",
+  "id": "portable_tables",
   "version": "${version}",
   "name": "Portable Tables",
   "description": "A mod thats adds portable workbench's",
