@@ -2,10 +2,8 @@ package me.alphamode.portablecrafting;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.fabricmc.fabric.api.tag.TagFactory;
-
 import net.minecraft.item.Item;
-import net.minecraft.tag.Tag;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -13,8 +11,8 @@ public class PortableCrafting implements ModInitializer {
 
     public static PortableTable PORTABLECRAFTING;
 
-    public static final Tag.Identified<Item> WORKBENCH = TagFactory.ITEM.create(new Identifier("c:portable_workbench"));
-    public static final Tag.Identified<Item> FURNACE = TagFactory.ITEM.create(new Identifier("c:portable_furnace"));
+    public static final TagKey<Item> WORKBENCH = TagKey.of(Registry.ITEM_KEY, new Identifier("c:portable_workbench"));
+    public static final TagKey<Item> FURNACE = TagKey.of(Registry.ITEM_KEY, new Identifier("c:portable_furnace"));
 
     @Override
     public void onInitialize() {
