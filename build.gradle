@@ -20,7 +20,7 @@ dependencies {
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modRuntimeOnly "com.terraformersmc:modmenu:2.0.2"
+    modRuntimeOnly "com.terraformersmc:modmenu:4.0.0"
 }
 
 loom {

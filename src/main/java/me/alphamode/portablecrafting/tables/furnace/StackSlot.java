@@ -6,8 +6,11 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.recipe.AbstractCookingRecipe;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.world.World;
 
 public class StackSlot extends Slot {
 
@@ -20,6 +23,10 @@ public class StackSlot extends Slot {
         this.player = player;
     }
 
+    private static int getCookTime(World world, RecipeType<? extends AbstractCookingRecipe> recipeType, Inventory inventory) {
+        return world.getRecipeManager().getFirstMatch(recipeType, inventory, world).map(AbstractCookingRecipe::getCookTime).orElse(200);
+    }
+
     @Override
     public void setStack(ItemStack stack) {
         super.setStack(stack);
@@ -28,7 +35,7 @@ public class StackSlot extends Slot {
         Inventories.readNbt(nbt, itemInv);
         itemInv.set(getIndex(), stack);
         if (!pFurnace.isEmpty())
-            nbt.putShort("CookTimeTotal", (short) AbstractFurnaceBlockEntityAccessor.callGetCookTime(player.getWorld(), ((PortableFurnace)pFurnace.getItem()).getFurnaceType(), inventory));
+            nbt.putShort("CookTimeTotal", (short) getCookTime(player.getWorld(), ((PortableFurnace)pFurnace.getItem()).getFurnaceType(), inventory));
         Inventories.writeNbt(nbt, itemInv);
     }
 }

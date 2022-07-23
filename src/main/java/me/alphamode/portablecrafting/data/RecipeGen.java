@@ -3,7 +3,7 @@ package me.alphamode.portablecrafting.data;
 import me.alphamode.portablecrafting.PortableTables;
 import me.alphamode.portablecrafting.PortableTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipesProvider;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.advancement.criterion.InventoryChangedCriterion;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
@@ -13,7 +13,7 @@ import net.minecraft.tag.ItemTags;
 
 import java.util.function.Consumer;
 
-public class RecipeGen extends FabricRecipesProvider {
+public class RecipeGen extends FabricRecipeProvider {
     public RecipeGen(FabricDataGenerator dataGenerator) {
         super(dataGenerator);
     }

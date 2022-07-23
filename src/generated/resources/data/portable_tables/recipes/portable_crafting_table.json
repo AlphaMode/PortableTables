@@ -1,18 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "S": {
+      "tag": "c:wood_sticks"
+    },
+    "W": {
+      "tag": "minecraft:planks"
+    }
+  },
   "pattern": [
     " WW",
     " WW",
     "S  "
   ],
-  "key": {
-    "W": {
-      "tag": "minecraft:planks"
-    },
-    "S": {
-      "tag": "c:wood_sticks"
-    }
-  },
   "result": {
     "item": "portable_tables:portable_crafting_table"
   }

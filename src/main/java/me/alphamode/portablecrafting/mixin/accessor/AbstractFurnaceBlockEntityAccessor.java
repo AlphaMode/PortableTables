@@ -20,11 +20,6 @@ public interface AbstractFurnaceBlockEntityAccessor {
     }
 
     @Invoker
-    static int callGetCookTime(World world, RecipeType<? extends AbstractCookingRecipe> recipeType, Inventory inventory) {
-        return 200;
-    }
-
-    @Invoker
     static boolean callCraftRecipe(@Nullable Recipe<?> recipe, DefaultedList<ItemStack> slots, int count) {
         return false;
     }

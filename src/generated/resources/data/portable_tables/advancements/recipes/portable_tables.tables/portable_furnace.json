@@ -1,24 +1,19 @@
 {
   "parent": "minecraft:recipes/root",
-  "rewards": {
-    "recipes": [
-      "portable_tables:portable_smoker"
-    ]
-  },
   "criteria": {
     "always": {
-      "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           null
         ]
-      }
+      },
+      "trigger": "minecraft:inventory_changed"
     },
     "has_the_recipe": {
-      "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "portable_tables:portable_smoker"
-      }
+        "recipe": "portable_tables:portable_furnace"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
@@ -26,5 +21,10 @@
       "always",
       "has_the_recipe"
     ]
-  ]
+  ],
+  "rewards": {
+    "recipes": [
+      "portable_tables:portable_furnace"
+    ]
+  }
 }

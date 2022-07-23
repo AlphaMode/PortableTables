@@ -1,9 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    " C",
-    "S "
-  ],
   "key": {
     "C": {
       "tag": "c:workbench"
@@ -12,6 +8,10 @@
       "tag": "c:wood_sticks"
     }
   },
+  "pattern": [
+    " C",
+    "S "
+  ],
   "result": {
     "item": "portable_tables:portable_crafting_table"
   }

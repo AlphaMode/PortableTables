@@ -13,6 +13,7 @@ import net.minecraft.client.item.TooltipData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -61,6 +62,10 @@ public class PortableFurnace extends PortableTable<ItemStack> {
         }
     }
 
+    private static int getCookTime(World world, RecipeType<? extends AbstractCookingRecipe> recipeType, Inventory inventory) {
+        return world.getRecipeManager().getFirstMatch(recipeType, inventory, world).map(AbstractCookingRecipe::getCookTime).orElse(200);
+    }
+
     @Override
     public void inventoryTick(ItemStack furanceStack, World world, Entity entity, int slot, boolean selected) {
         NbtCompound nbt = furanceStack.getOrCreateNbt();
@@ -105,7 +110,7 @@ public class PortableFurnace extends PortableTable<ItemStack> {
                 ++cookTime;
                 if (cookTime == cookTimeTotal) {
                     cookTime = 0;
-                    cookTimeTotal = AbstractFurnaceBlockEntityAccessor.callGetCookTime(world, furnaceType, new SimpleInventory(inventory.get(0), inventory.get(1), inventory.get(2)));
+                    cookTimeTotal = getCookTime(world, furnaceType, new SimpleInventory(inventory.get(0), inventory.get(1), inventory.get(2)));
                     if (AbstractFurnaceBlockEntityAccessor.callCraftRecipe(recipe, inventory, count)) {
                         if (recipe != null) {
                             Identifier identifier = recipe.getId();

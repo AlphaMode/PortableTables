@@ -17,7 +17,7 @@ public class TagGen extends FabricTagProvider<Item> {
      * @param dataGenerator The data generator instance
      */
     protected TagGen(FabricDataGenerator dataGenerator) {
-        super(dataGenerator, Registry.ITEM, "items", "Portable Tables: Item Tags");
+        super(dataGenerator, Registry.ITEM);
     }
 
     @Override

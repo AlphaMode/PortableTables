@@ -16,7 +16,7 @@ import net.minecraft.recipe.book.RecipeBookCategory;
 import net.minecraft.screen.*;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.stat.Stats;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
@@ -79,7 +79,7 @@ public class PortableFurnaceScreenHandler extends AbstractRecipeScreenHandler<In
         DefaultedList<ItemStack> itemInv = DefaultedList.ofSize(3, ItemStack.EMPTY);
         Inventories.readNbt(stack.getNbt(), itemInv);
         Inventory furnaceInv = new SimpleInventory(itemInv.get(0), itemInv.get(1), itemInv.get(2));
-        OptionalInt syncID = player.openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, inventory, playerEntity) -> new PortableFurnaceScreenHandler(syncId, player.getInventory(), furnaceInv, stack), new TranslatableText("container.furnace")));
+        OptionalInt syncID = player.openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, inventory, playerEntity) -> new PortableFurnaceScreenHandler(syncId, player.getInventory(), furnaceInv, stack), Text.translatable("container.furnace")));
         player.incrementStat(Stats.INTERACT_WITH_FURNACE);
         stack.getNbt().putInt("currentSyncId", syncID.orElseThrow());
     }
