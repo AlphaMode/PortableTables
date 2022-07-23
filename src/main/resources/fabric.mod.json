@@ -13,10 +13,10 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "me.alphamode.portablecrafting.client.PortableCraftingClient"
+      "me.alphamode.portablecrafting.client.PortableTablesClient"
     ],
     "main": [
-      "me.alphamode.portablecrafting.PortableCrafting"
+      "me.alphamode.portablecrafting.PortableTables"
     ],
     "fabric-datagen": [
       "me.alphamode.portablecrafting.data.DataGen"

@@ -1,0 +1,30 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "portable_tables:portable_furnace"
+    ]
+  },
+  "criteria": {
+    "always": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          null
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "portable_tables:portable_furnace"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "always",
+      "has_the_recipe"
+    ]
+  ]
+}

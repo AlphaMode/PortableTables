@@ -4,7 +4,9 @@
   "package": "me.alphamode.portablecrafting.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "InventoryScreenMixin"
+    "InventoryScreenMixin",
+    "accessor.AbstractFurnaceBlockEntityAccessor",
+    "accessor.SimpleInventoryAccessor"
   ],
   "client": [
   ],

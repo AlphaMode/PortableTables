@@ -1,6 +1,6 @@
 package me.alphamode.portablecrafting.data;
 
-import me.alphamode.portablecrafting.PortableCrafting;
+import me.alphamode.portablecrafting.PortableTables;
 import me.alphamode.portablecrafting.PortableTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
@@ -22,11 +22,14 @@ public class TagGen extends FabricTagProvider<Item> {
 
     @Override
     protected void generateTags() {
-        getOrCreateTagBuilder(PortableTags.PORTABLE_WORKBENCH).add(PortableCrafting.PORTABLECRAFTING);
+        getOrCreateTagBuilder(PortableTags.PORTABLE_WORKBENCH).add(PortableTables.PORTABLE_CRAFTING);
         getOrCreateTagBuilder(PortableTags.WOODEN_RODS);
         getOrCreateTagBuilder(PortableTags.STICKS).add(Items.STICK).addTag(PortableTags.WOODEN_RODS);
         getOrCreateTagBuilder(PortableTags.WORKBENCHES);
         getOrCreateTagBuilder(PortableTags.WORKBENCH).add(Items.CRAFTING_TABLE).addTag(PortableTags.WORKBENCHES);
-//        getOrCreateTagBuilder(PortableTags.FURNACE).add(PortableCrafting.PORTABLEFURNACE);
+        getOrCreateTagBuilder(PortableTags.PORTABLE_FURNACE).add(PortableTables.PORTABLE_FURNACE);
+        getOrCreateTagBuilder(PortableTags.PORTABLE_TABLES)
+                .addTag(PortableTags.PORTABLE_WORKBENCH)
+                .addTag(PortableTags.PORTABLE_FURNACE);
     }
 }

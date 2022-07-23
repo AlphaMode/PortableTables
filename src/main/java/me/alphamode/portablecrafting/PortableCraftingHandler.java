@@ -16,10 +16,10 @@ public class PortableCraftingHandler extends CraftingScreenHandler {
 
     @Override
     public boolean canUse(PlayerEntity player) {
-        return player.getInventory().contains(PortableCrafting.WORKBENCH);
+        return player.getInventory().contains(PortableTags.PORTABLE_WORKBENCH);
     }
 
-    public static void openTable(PlayerEntity player) {
+    public static void openTable(PlayerEntity player, Void context) {
         player.openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, inventory, playerEntity) -> new PortableCraftingHandler(syncId, inventory, ScreenHandlerContext.create(playerEntity.world, playerEntity.getBlockPos())), new TranslatableText("container.crafting")));
         player.incrementStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
     }

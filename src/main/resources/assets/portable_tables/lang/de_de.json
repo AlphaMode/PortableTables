@@ -1,5 +1,9 @@
 {
   "item.portable_tables.portable_crafting_table": "Tragbare Werkbank",
+  "item.portable_tables.portable_furnace": "Tragbarer Ofen",
+  "item.portable_tables.portable_blast_furnace": "Tragbarer Schmelzofen",
+  "item.portable_tables.portable_smoker": "Tragbarer Räucherofen",
   "key.portable_tables.open_craft": "Tragbare Werkbank öffnen",
-  "key.categories.portable_tables": "Portable Tables"
+  "key.categories.portable_tables": "Portable Tables",
+  "itemGroup.portable_tables.tables": "Portable Tables"
 }
