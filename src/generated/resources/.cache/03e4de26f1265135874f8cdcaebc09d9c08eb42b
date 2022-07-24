@@ -1,8 +1,5 @@
-// 1.19	2022-07-23T15:28:06.94414669	Tags for minecraft:item
-50219817d637a5d9e1c910762652c6ee3d6a290c data/c/tags/items/wood_sticks.json
-65031fc2171cf365e6a29008e9fef97549935f65 data/c/tags/items/workbench.json
-8d024d16da8d970a2a497babc7ed5da957630603 data/c/tags/items/portable_workbench.json
-6fd2b57002bcbe418b6e2575ccf7b9a3891a9919 data/c/tags/items/portable_furnace.json
-2a954be21d64172bbaf3afc759c4d48f159dd74b data/c/tags/items/portable_tables.json
-8a23702b05296c8af5014d6aa6e9265ded85c7d9 data/c/tags/items/wooden_rods.json
-8a23702b05296c8af5014d6aa6e9265ded85c7d9 data/c/tags/items/workbenches.json
+// 1.19	2022-07-24T11:47:22.740369234	Tags for minecraft:item
+875b0e6d0e6aa10b7416e50827fa7aa1050d8b43 data/forge/tags/items/portable_furnace.json
+379a0e7bdb31be295f67b54a890baf24e75bcba7 data/forge/tags/items/portable_tables.json
+7b9c80d6ca1aed36aa7f4b4a3471b2e1c0c35992 data/forge/tags/items/portable_workbench.json
+269fcb0d7980156a2d8c271bfb048968ebc0fb79 data/forge/tags/items/workbench.json

@@ -5,7 +5,7 @@
       "item": "minecraft:furnace"
     },
     "S": {
-      "tag": "c:wood_sticks"
+      "tag": "forge:rods/wooden"
     }
   },
   "pattern": [

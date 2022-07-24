@@ -1,8 +1,6 @@
 package me.alphamode.portablecrafting.tables.furnace;
 
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import me.alphamode.portablecrafting.PortableTables;
-import me.alphamode.portablecrafting.mixin.accessor.AbstractFurnaceBlockEntityAccessor;
 import me.alphamode.portablecrafting.network.PortableNetwork;
 import me.alphamode.portablecrafting.network.SyncPacket;
 import me.alphamode.portablecrafting.tables.AllTables;
@@ -19,10 +17,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.network.PacketDistributor;
 
@@ -84,6 +84,28 @@ public class PortableFurnace extends PortableTable<ItemStack> {
         }
     }
 
+    private boolean burn(@Nullable Recipe<?> recipe, NonNullList<ItemStack> nonNullList, int i) {
+        if (recipe != null && canBurn(recipe, nonNullList, i)) {
+            ItemStack itemStack = nonNullList.get(0);
+            ItemStack itemStack2 = recipe.getResultItem();
+            ItemStack itemStack3 = nonNullList.get(2);
+            if (itemStack3.isEmpty()) {
+                nonNullList.set(2, itemStack2.copy());
+            } else if (itemStack3.is(itemStack2.getItem())) {
+                itemStack3.grow(1);
+            }
+
+            if (itemStack.is(Blocks.WET_SPONGE.asItem()) && !nonNullList.get(1).isEmpty() && nonNullList.get(1).is(Items.BUCKET)) {
+                nonNullList.set(1, new ItemStack(Items.WATER_BUCKET));
+            }
+
+            itemStack.shrink(1);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Override
     public void inventoryTick(ItemStack furanceStack, Level world, Entity entity, int slot, boolean selected) {
         CompoundTag nbt = furanceStack.getOrCreateTag();
@@ -92,7 +114,7 @@ public class PortableFurnace extends PortableTable<ItemStack> {
         int burnTime = nbt.getShort("BurnTime");
         int cookTime = nbt.getShort("CookTime");
         int cookTimeTotal = nbt.getShort("CookTimeTotal");
-        int fuelTime = this.getFuelTime(inventory.get(1));
+        int fuelTime = getFuelTime(inventory.get(1));
         CompoundTag nbtCompound = nbt.getCompound("RecipesUsed");
 
         final Object2IntOpenHashMap<ResourceLocation> recipesUsed = new Object2IntOpenHashMap<>();
@@ -115,7 +137,7 @@ public class PortableFurnace extends PortableTable<ItemStack> {
                     if (!fuelStack.isEmpty()) {
                         fuelStack.shrink(1);
                         if (fuelStack.isEmpty()) {
-                            inventory.set(1, fuelStack.getCraftingRemainingItem());
+                            inventory.set(1, fuelStack.hasCraftingRemainingItem() ? fuelStack.getCraftingRemainingItem() : ItemStack.EMPTY);
                             if (entity instanceof ServerPlayer player)
                                 markDirty(player, furanceStack, inventory);
                         }
@@ -127,7 +149,7 @@ public class PortableFurnace extends PortableTable<ItemStack> {
                 if (cookTime == cookTimeTotal) {
                     cookTime = 0;
                     cookTimeTotal = getCookTime(world, furnaceType, new SimpleContainer(inventory.get(0), inventory.get(1), inventory.get(2)));
-                    if (AbstractFurnaceBlockEntityAccessor.callBurn(recipe, inventory, count)) {
+                    if (burn(recipe, inventory, count)) {
                         if (recipe != null) {
                             ResourceLocation identifier = recipe.getId();
                             recipesUsed.addTo(identifier, 1);
@@ -161,6 +183,11 @@ public class PortableFurnace extends PortableTable<ItemStack> {
 
     public RecipeType<? extends AbstractCookingRecipe> getFurnaceType() {
         return furnaceType;
+    }
+
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        return false;
     }
 
     @Override

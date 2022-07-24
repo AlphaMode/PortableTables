@@ -1,6 +1,7 @@
 package me.alphamode.portablecrafting.mixin;
 
 import me.alphamode.portablecrafting.client.PortableWidget;
+import me.alphamode.portablecrafting.tables.AllTables;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
@@ -28,9 +29,9 @@ public abstract class InventoryScreenMixin extends AbstractContainerScreen<Inven
         for (GuiEventListener widget : children()) {
             if(widget instanceof PortableWidget craftingWidget) {
                 if (recipeBookComponent.isVisible()) {
-                    craftingWidget.setPos(this.width / 2 + 120, this.height / 2 - 20);
+                    craftingWidget.setPos(this.width / 2 + (craftingWidget.getTableType() == AllTables.CRAFTING ? 120 : 140), this.height / 2 - 20);
                 } else {
-                    craftingWidget.setPos(this.width / 2 + 40, this.height / 2 - 20);
+                    craftingWidget.setPos(this.width / 2 + (craftingWidget.getTableType() == AllTables.CRAFTING ? 40 : 60), this.height / 2 - 20);
                 }
             }
         }

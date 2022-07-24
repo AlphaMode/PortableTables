@@ -39,15 +39,15 @@ public class PortableFurnaceScreen extends AbstractContainerScreen<PortableFurna
     @Override
     public void init() {
         super.init();
-        this.narrow = this.width < 379;
-        this.recipeBook.init(this.width, this.height, this.minecraft, this.narrow, this.menu);
-        this.leftPos = this.recipeBook.updateScreenPosition(this.width, this.width);
+        this.narrow = this.imageWidth < 379;
+        this.recipeBook.init(this.imageWidth, this.imageHeight, this.minecraft, this.narrow, this.menu);
+        this.leftPos = this.recipeBook.updateScreenPosition(this.width, this.imageWidth);
         this.addRenderableWidget(new ImageButton(this.leftPos + 20, this.height / 2 - 49, 20, 18, 0, 0, 19, RECIPE_BUTTON_TEXTURE, button -> {
             this.recipeBook.toggleVisibility();
-            this.topPos = this.recipeBook.updateScreenPosition(this.width, this.width);
+            this.topPos = this.recipeBook.updateScreenPosition(this.width, this.imageWidth);
             ((ImageButton)button).setPosition(this.leftPos + 20, this.height / 2 - 49);
         }));
-        this.titleLabelX = (this.width - this.font.width(this.title)) / 2;
+        this.titleLabelX = (this.imageWidth - this.font.width(this.title)) / 2;
     }
 
     @Override
@@ -100,7 +100,7 @@ public class PortableFurnaceScreen extends AbstractContainerScreen<PortableFurna
         RenderSystem.setShaderTexture(0, TEXTURE);
         int i = this.leftPos;
         int j = this.topPos;
-        this.blit(matrices, i, j, 0, 0, this.width, this.height);
+        this.blit(matrices, i, j, 0, 0, this.imageWidth, this.imageHeight);
         if (isBurning()) {
             int k = getFuelProgress();
             this.blit(matrices, i + 56, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
@@ -136,7 +136,7 @@ public class PortableFurnaceScreen extends AbstractContainerScreen<PortableFurna
                 || mouseY < (double)top
                 || mouseX >= (double)(left + this.width)
                 || mouseY >= (double)(top + this.height);
-        return this.recipeBook.hasClickedOutside(mouseX, mouseY, this.leftPos, this.topPos, this.width, this.height, button) && bl;
+        return this.recipeBook.hasClickedOutside(mouseX, mouseY, this.leftPos, this.topPos, this.imageWidth, this.imageHeight, button) && bl;
     }
 
     @Override

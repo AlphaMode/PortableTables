@@ -16,10 +16,7 @@ public class TagGen extends ItemTagsProvider {
     @Override
     protected void addTags() {
         tag(PortableTags.PORTABLE_WORKBENCH).add(PortableTables.PORTABLE_CRAFTING.get());
-        tag(PortableTags.WOODEN_RODS);
-        tag(PortableTags.STICKS).add(Items.STICK).addTag(PortableTags.WOODEN_RODS);
-        tag(PortableTags.WORKBENCHES);
-        tag(PortableTags.WORKBENCH).add(Items.CRAFTING_TABLE).addTag(PortableTags.WORKBENCHES);
+        tag(PortableTags.WORKBENCH).add(Items.CRAFTING_TABLE);
         tag(PortableTags.PORTABLE_FURNACE).add(PortableTables.PORTABLE_FURNACE.get());
         tag(PortableTags.PORTABLE_TABLES)
                 .addTag(PortableTags.PORTABLE_WORKBENCH)

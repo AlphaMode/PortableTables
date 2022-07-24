@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "S": {
-      "tag": "c:wood_sticks"
+      "tag": "forge:rods/wooden"
     },
     "W": {
       "tag": "minecraft:planks"
