@@ -152,6 +152,11 @@ public class PortableFurnace extends PortableTable<ItemStack> {
     }
 
     @Override
+    public boolean allowNbtUpdateAnimation(PlayerEntity player, Hand hand, ItemStack oldStack, ItemStack newStack) {
+        return false;
+    }
+
+    @Override
     public Optional<TooltipData> getTooltipData(ItemStack furnaceStack) {
         return Optional.of(new PortableFurnaceTooltipData(furnaceStack));
     }
