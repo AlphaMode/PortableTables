@@ -1,38 +1,37 @@
 package me.alphamode.portablecrafting.tables.furnace.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import me.alphamode.portablecrafting.tables.furnace.PortableFurnaceScreenHandler;
-import me.alphamode.portablecrafting.tables.furnace.client.PortableFurnaceHandler;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.screen.recipebook.AbstractFurnaceRecipeBookScreen;
-import net.minecraft.client.gui.screen.recipebook.FurnaceRecipeBookScreen;
-import net.minecraft.client.gui.screen.recipebook.RecipeBookProvider;
-import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
-import net.minecraft.client.gui.widget.TexturedButtonWidget;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.screen.ArrayPropertyDelegate;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.screen.slot.SlotActionType;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.recipebook.AbstractFurnaceRecipeBookComponent;
+import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
+import net.minecraft.client.gui.screens.recipebook.RecipeUpdateListener;
+import net.minecraft.client.gui.screens.recipebook.SmeltingRecipeBookComponent;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.SimpleContainerData;
+import net.minecraft.world.inventory.Slot;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@Environment(EnvType.CLIENT)
-public class PortableFurnaceScreen extends HandledScreen<PortableFurnaceScreenHandler> implements RecipeBookProvider {
-    private static final Identifier RECIPE_BUTTON_TEXTURE = new Identifier("textures/gui/recipe_button.png");
-    public final AbstractFurnaceRecipeBookScreen recipeBook;
+@OnlyIn(Dist.CLIENT)
+public class PortableFurnaceScreen extends AbstractContainerScreen<PortableFurnaceScreenHandler> implements RecipeUpdateListener {
+    private static final ResourceLocation RECIPE_BUTTON_TEXTURE = new ResourceLocation("textures/gui/recipe_button.png");
+    public final AbstractFurnaceRecipeBookComponent recipeBook;
     private boolean narrow;
 
-    public static final Identifier TEXTURE = new Identifier("textures/gui/container/furnace.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation("textures/gui/container/furnace.png");
 
-    public PortableFurnaceScreen(PortableFurnaceScreenHandler handler, PlayerInventory inventory, Text title) {
-        this(handler, new FurnaceRecipeBookScreen(), inventory, title);
+    public PortableFurnaceScreen(PortableFurnaceScreenHandler handler, Inventory inventory, Component title) {
+        this(handler, new SmeltingRecipeBookComponent(), inventory, title);
     }
 
-    public PortableFurnaceScreen(PortableFurnaceScreenHandler handler, AbstractFurnaceRecipeBookScreen recipeBook, PlayerInventory inventory, Text title) {
+    public PortableFurnaceScreen(PortableFurnaceScreenHandler handler, AbstractFurnaceRecipeBookComponent recipeBook, Inventory inventory, Component title) {
         super(handler, inventory, title);
         this.recipeBook = recipeBook;
     }
@@ -41,40 +40,40 @@ public class PortableFurnaceScreen extends HandledScreen<PortableFurnaceScreenHa
     public void init() {
         super.init();
         this.narrow = this.width < 379;
-        this.recipeBook.initialize(this.width, this.height, this.client, this.narrow, this.handler);
-        this.x = this.recipeBook.findLeftEdge(this.width, this.backgroundWidth);
-        this.addDrawableChild(new TexturedButtonWidget(this.x + 20, this.height / 2 - 49, 20, 18, 0, 0, 19, RECIPE_BUTTON_TEXTURE, button -> {
-            this.recipeBook.toggleOpen();
-            this.x = this.recipeBook.findLeftEdge(this.width, this.backgroundWidth);
-            ((TexturedButtonWidget)button).setPos(this.x + 20, this.height / 2 - 49);
+        this.recipeBook.init(this.width, this.height, this.minecraft, this.narrow, this.menu);
+        this.leftPos = this.recipeBook.updateScreenPosition(this.width, this.width);
+        this.addRenderableWidget(new ImageButton(this.leftPos + 20, this.height / 2 - 49, 20, 18, 0, 0, 19, RECIPE_BUTTON_TEXTURE, button -> {
+            this.recipeBook.toggleVisibility();
+            this.topPos = this.recipeBook.updateScreenPosition(this.width, this.width);
+            ((ImageButton)button).setPosition(this.leftPos + 20, this.height / 2 - 49);
         }));
-        this.titleX = (this.backgroundWidth - this.textRenderer.getWidth(this.title)) / 2;
+        this.titleLabelX = (this.width - this.font.width(this.title)) / 2;
     }
 
     @Override
-    public void handledScreenTick() {
-        super.handledScreenTick();
-        this.recipeBook.update();
+    public void containerTick() {
+        super.containerTick();
+        this.recipeBook.tick();
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
-        if (this.recipeBook.isOpen() && this.narrow) {
-            this.drawBackground(matrices, delta, mouseX, mouseY);
+        if (this.recipeBook.isVisible() && this.narrow) {
+            this.renderBg(matrices, delta, mouseX, mouseY);
             this.recipeBook.render(matrices, mouseX, mouseY, delta);
         } else {
             this.recipeBook.render(matrices, mouseX, mouseY, delta);
             super.render(matrices, mouseX, mouseY, delta);
-            this.recipeBook.drawGhostSlots(matrices, this.x, this.y, true, delta);
+            this.recipeBook.renderGhostRecipe(matrices, this.leftPos, this.topPos, true, delta);
         }
 
-        this.drawMouseoverTooltip(matrices, mouseX, mouseY);
-        this.recipeBook.drawTooltip(matrices, this.x, this.y, mouseX, mouseY);
+        this.renderTooltip(matrices, mouseX, mouseY);
+        this.recipeBook.renderTooltip(matrices, this.leftPos, this.topPos, mouseX, mouseY);
     }
 
     public int getFuelProgress() {
-        ArrayPropertyDelegate delegate = PortableFurnaceHandler.getSyncedPropertyDelegate(this);
+        SimpleContainerData delegate = PortableFurnaceHandler.getSyncedPropertyDelegate(this);
         int i = delegate.get(1);
         if (i == 0) {
             i = 200;
@@ -84,7 +83,7 @@ public class PortableFurnaceScreen extends HandledScreen<PortableFurnaceScreenHa
     }
 
     public int getCookProgress() {
-        ArrayPropertyDelegate delegate = PortableFurnaceHandler.getSyncedPropertyDelegate(this);
+        SimpleContainerData delegate = PortableFurnaceHandler.getSyncedPropertyDelegate(this);
         int i = delegate.get(2);
         int j = delegate.get(3);
         return j != 0 && i != 0 ? i * 24 / j : 0;
@@ -95,20 +94,20 @@ public class PortableFurnaceScreen extends HandledScreen<PortableFurnaceScreenHa
     }
 
     @Override
-    protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+    protected void renderBg(PoseStack matrices, float delta, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
-        int i = this.x;
-        int j = this.y;
-        this.drawTexture(matrices, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
+        int i = this.leftPos;
+        int j = this.topPos;
+        this.blit(matrices, i, j, 0, 0, this.width, this.height);
         if (isBurning()) {
             int k = getFuelProgress();
-            this.drawTexture(matrices, i + 56, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
+            this.blit(matrices, i + 56, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
         }
 
         int k = getCookProgress();
-        this.drawTexture(matrices, i + 79, j + 34, 176, 14, k + 1, 16);
+        this.blit(matrices, i + 79, j + 34, 176, 14, k + 1, 16);
     }
 
     @Override
@@ -116,13 +115,13 @@ public class PortableFurnaceScreen extends HandledScreen<PortableFurnaceScreenHa
         if (this.recipeBook.mouseClicked(mouseX, mouseY, button)) {
             return true;
         } else {
-            return this.narrow && this.recipeBook.isOpen() ? true : super.mouseClicked(mouseX, mouseY, button);
+            return this.narrow && this.recipeBook.isVisible() ? true : super.mouseClicked(mouseX, mouseY, button);
         }
     }
 
     @Override
-    protected void onMouseClick(Slot slot, int slotId, int button, SlotActionType actionType) {
-        super.onMouseClick(slot, slotId, button, actionType);
+    protected void slotClicked(Slot slot, int slotId, int button, ClickType actionType) {
+        super.slotClicked(slot, slotId, button, actionType);
         this.recipeBook.slotClicked(slot);
     }
 
@@ -132,12 +131,12 @@ public class PortableFurnaceScreen extends HandledScreen<PortableFurnaceScreenHa
     }
 
     @Override
-    protected boolean isClickOutsideBounds(double mouseX, double mouseY, int left, int top, int button) {
+    protected boolean hasClickedOutside(double mouseX, double mouseY, int left, int top, int button) {
         boolean bl = mouseX < (double)left
                 || mouseY < (double)top
-                || mouseX >= (double)(left + this.backgroundWidth)
-                || mouseY >= (double)(top + this.backgroundHeight);
-        return this.recipeBook.isClickOutsideBounds(mouseX, mouseY, this.x, this.y, this.backgroundWidth, this.backgroundHeight, button) && bl;
+                || mouseX >= (double)(left + this.width)
+                || mouseY >= (double)(top + this.height);
+        return this.recipeBook.hasClickedOutside(mouseX, mouseY, this.leftPos, this.topPos, this.width, this.height, button) && bl;
     }
 
     @Override
@@ -146,18 +145,18 @@ public class PortableFurnaceScreen extends HandledScreen<PortableFurnaceScreenHa
     }
 
     @Override
-    public void refreshRecipeBook() {
-        this.recipeBook.refresh();
+    public void recipesUpdated() {
+        this.recipeBook.recipesUpdated();
     }
 
     @Override
-    public RecipeBookWidget getRecipeBookWidget() {
+    public RecipeBookComponent getRecipeBookComponent() {
         return this.recipeBook;
     }
 
     @Override
     public void removed() {
-        this.recipeBook.close();
+        this.recipeBook.removed();
         super.removed();
     }
 }

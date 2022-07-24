@@ -3,40 +3,37 @@ package me.alphamode.portablecrafting.tables.furnace;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import me.alphamode.portablecrafting.PortableTables;
 import me.alphamode.portablecrafting.mixin.accessor.AbstractFurnaceBlockEntityAccessor;
+import me.alphamode.portablecrafting.network.PortableNetwork;
+import me.alphamode.portablecrafting.network.SyncPacket;
 import me.alphamode.portablecrafting.tables.AllTables;
 import me.alphamode.portablecrafting.tables.PortableTable;
 import me.alphamode.portablecrafting.tables.furnace.client.PortableFurnaceTooltipData;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.fabricmc.fabric.api.registry.FuelRegistry;
-import net.minecraft.client.item.TooltipData;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.recipe.AbstractCookingRecipe;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
+import net.minecraft.world.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.network.PacketDistributor;
 
+import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 
 public class PortableFurnace extends PortableTable<ItemStack> {
     protected final RecipeType<? extends AbstractCookingRecipe> furnaceType;
 
-    public PortableFurnace(BiConsumer<PlayerEntity, ItemStack> openContext, RecipeType<? extends AbstractCookingRecipe> furnaceType, AllTables type) {
+    public PortableFurnace(BiConsumer<Player, ItemStack> openContext, RecipeType<? extends AbstractCookingRecipe> furnaceType, AllTables type) {
         super(openContext, type);
         this.furnaceType = furnaceType;
     }
@@ -49,37 +46,58 @@ public class PortableFurnace extends PortableTable<ItemStack> {
         if (fuel.isEmpty()) {
             return 0;
         } else {
-            Item item = fuel.getItem();
-            return FuelRegistry.INSTANCE.get(item);
+            return ForgeHooks.getBurnTime(fuel, null);
         }
     }
 
-    public static void markDirty(ServerPlayerEntity serverPlayer, ItemStack furanceStack, DefaultedList<ItemStack> inventory) {
-        if (serverPlayer.currentScreenHandler instanceof PortableFurnaceScreenHandler handler && furanceStack.getNbt().getInt("currentSyncId") == handler.syncId) {
-            handler.getSlot(0).setStack(inventory.get(0));
-            handler.getSlot(1).setStack(inventory.get(1));
-            handler.getSlot(2).setStack(inventory.get(2));
+    public static void markDirty(ServerPlayer serverPlayer, ItemStack furanceStack, NonNullList<ItemStack> inventory) {
+        if (serverPlayer.containerMenu instanceof PortableFurnaceScreenHandler handler && furanceStack.getTag().getInt("currentSyncId") == handler.containerId) {
+            handler.getSlot(0).set(inventory.get(0));
+            handler.getSlot(1).set(inventory.get(1));
+            handler.getSlot(2).set(inventory.get(2));
         }
     }
 
-    private static int getCookTime(World world, RecipeType<? extends AbstractCookingRecipe> recipeType, Inventory inventory) {
-        return world.getRecipeManager().getFirstMatch(recipeType, inventory, world).map(AbstractCookingRecipe::getCookTime).orElse(200);
+    private static int getCookTime(Level world, RecipeType<? extends AbstractCookingRecipe> recipeType, Container inventory) {
+        return world.getRecipeManager().getRecipeFor(recipeType, inventory, world).map(AbstractCookingRecipe::getCookingTime).orElse(200);
+    }
+
+    private boolean canBurn(@Nullable Recipe<?> recipe, NonNullList<ItemStack> slots, int count) {
+        if (!slots.get(0).isEmpty() && recipe != null) {
+            ItemStack itemstack = recipe.getResultItem();
+            if (itemstack.isEmpty()) {
+                return false;
+            } else {
+                ItemStack itemstack1 = slots.get(2);
+                if (itemstack1.isEmpty()) {
+                    return true;
+                } else if (!itemstack1.sameItem(itemstack)) {
+                    return false;
+                } else if (itemstack1.getCount() + itemstack.getCount() <= count && itemstack1.getCount() + itemstack.getCount() <= itemstack1.getMaxStackSize()) { // Forge fix: make furnace respect stack sizes in furnace recipes
+                    return true;
+                } else {
+                    return itemstack1.getCount() + itemstack.getCount() <= itemstack.getMaxStackSize(); // Forge fix: make furnace respect stack sizes in furnace recipes
+                }
+            }
+        } else {
+            return false;
+        }
     }
 
     @Override
-    public void inventoryTick(ItemStack furanceStack, World world, Entity entity, int slot, boolean selected) {
-        NbtCompound nbt = furanceStack.getOrCreateNbt();
-        DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
-        Inventories.readNbt(nbt, inventory);
+    public void inventoryTick(ItemStack furanceStack, Level world, Entity entity, int slot, boolean selected) {
+        CompoundTag nbt = furanceStack.getOrCreateTag();
+        NonNullList<ItemStack> inventory = NonNullList.withSize(3, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(nbt, inventory);
         int burnTime = nbt.getShort("BurnTime");
         int cookTime = nbt.getShort("CookTime");
         int cookTimeTotal = nbt.getShort("CookTimeTotal");
         int fuelTime = this.getFuelTime(inventory.get(1));
-        NbtCompound nbtCompound = nbt.getCompound("RecipesUsed");
+        CompoundTag nbtCompound = nbt.getCompound("RecipesUsed");
 
-        final Object2IntOpenHashMap<Identifier> recipesUsed = new Object2IntOpenHashMap<>();
-        for(String string : nbtCompound.getKeys()) {
-            recipesUsed.put(new Identifier(string), nbtCompound.getInt(string));
+        final Object2IntOpenHashMap<ResourceLocation> recipesUsed = new Object2IntOpenHashMap<>();
+        for(String string : nbtCompound.getAllKeys()) {
+            recipesUsed.put(new ResourceLocation(string), nbtCompound.getInt(string));
         }
 
         if (isBurning(burnTime)) {
@@ -88,34 +106,32 @@ public class PortableFurnace extends PortableTable<ItemStack> {
 
         ItemStack fuelStack = inventory.get(1);
         if (isBurning(burnTime) || !fuelStack.isEmpty() && !inventory.get(0).isEmpty()) {
-            Recipe<?> recipe = world.getRecipeManager().getFirstMatch(furnaceType, new SimpleInventory(inventory.get(0), inventory.get(1), inventory.get(2)), world).orElse(null);
+            Recipe<?> recipe = world.getRecipeManager().getRecipeFor(furnaceType, new SimpleContainer(inventory.get(0), inventory.get(1), inventory.get(2)), world).orElse(null);
             int count = 64;
-            if (!isBurning(burnTime) && AbstractFurnaceBlockEntityAccessor.callCanAcceptRecipeOutput(recipe, inventory, count)) {
+            if (!isBurning(burnTime) && canBurn(recipe, inventory, count)) {
                 burnTime = getFuelTime(fuelStack);
                 fuelTime = burnTime;
                 if (isBurning(burnTime)) {
                     if (!fuelStack.isEmpty()) {
-                        Item item = fuelStack.getItem();
-                        fuelStack.decrement(1);
+                        fuelStack.shrink(1);
                         if (fuelStack.isEmpty()) {
-                            Item item2 = item.getRecipeRemainder();
-                            inventory.set(1, item2 == null ? ItemStack.EMPTY : new ItemStack(item2));
-                            if (entity instanceof ServerPlayerEntity player)
+                            inventory.set(1, fuelStack.getCraftingRemainingItem());
+                            if (entity instanceof ServerPlayer player)
                                 markDirty(player, furanceStack, inventory);
                         }
                     }
                 }
             }
-            if (isBurning(burnTime) && AbstractFurnaceBlockEntityAccessor.callCanAcceptRecipeOutput(recipe, inventory, count)) {
+            if (isBurning(burnTime) && canBurn(recipe, inventory, count)) {
                 ++cookTime;
                 if (cookTime == cookTimeTotal) {
                     cookTime = 0;
-                    cookTimeTotal = getCookTime(world, furnaceType, new SimpleInventory(inventory.get(0), inventory.get(1), inventory.get(2)));
-                    if (AbstractFurnaceBlockEntityAccessor.callCraftRecipe(recipe, inventory, count)) {
+                    cookTimeTotal = getCookTime(world, furnaceType, new SimpleContainer(inventory.get(0), inventory.get(1), inventory.get(2)));
+                    if (AbstractFurnaceBlockEntityAccessor.callBurn(recipe, inventory, count)) {
                         if (recipe != null) {
-                            Identifier identifier = recipe.getId();
+                            ResourceLocation identifier = recipe.getId();
                             recipesUsed.addTo(identifier, 1);
-                            if (entity instanceof ServerPlayerEntity player)
+                            if (entity instanceof ServerPlayer player)
                                 markDirty(player, furanceStack, inventory);
                         }
                     }
@@ -124,26 +140,22 @@ public class PortableFurnace extends PortableTable<ItemStack> {
                 cookTime = 0;
             }
         } else if (!isBurning(burnTime) && cookTime > 0) {
-            cookTime = MathHelper.clamp(cookTime - 2, 0, cookTimeTotal);
+            cookTime = Mth.clamp(cookTime - 2, 0, cookTimeTotal);
         }
 
         nbt.putShort("BurnTime", (short) burnTime);
         nbt.putShort("CookTime", (short) cookTime);
         nbt.putShort("CookTimeTotal", (short) cookTimeTotal);
-        Inventories.writeNbt(nbt, inventory);
-        NbtCompound nbtCompoundSave = new NbtCompound();
+        ContainerHelper.saveAllItems(nbt, inventory);
+        CompoundTag nbtCompoundSave = new CompoundTag();
         recipesUsed.forEach((identifier, count) -> nbtCompoundSave.putInt(identifier.toString(), count));
         nbt.put("RecipesUsed", nbtCompoundSave);
-        furanceStack.setNbt(nbt);
+        furanceStack.setTag(nbt);
         int syncID = nbt.getInt("currentSyncId");
-        if(entity instanceof ServerPlayerEntity serverPlayer) {
-            PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeInt(syncID);
-            buf.writeShort(burnTime);
-            buf.writeShort(fuelTime);
-            buf.writeShort(cookTime);
-            buf.writeShort(cookTimeTotal);
-            ServerPlayNetworking.send(serverPlayer, PortableTables.asResource("sync"), buf);
+        if(entity instanceof ServerPlayer serverPlayer) {
+            PortableNetwork.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer),
+                    new SyncPacket(syncID, (short) burnTime, (short) fuelTime, (short) cookTime, (short) cookTimeTotal)
+            );
         }
     }
 
@@ -152,12 +164,12 @@ public class PortableFurnace extends PortableTable<ItemStack> {
     }
 
     @Override
-    public Optional<TooltipData> getTooltipData(ItemStack furnaceStack) {
+    public Optional<TooltipComponent> getTooltipImage(ItemStack furnaceStack) {
         return Optional.of(new PortableFurnaceTooltipData(furnaceStack));
     }
 
     @Override
-    protected ItemStack getContext(ServerWorld world, ServerPlayerEntity player, Hand hand) {
-        return player.getStackInHand(hand);
+    protected ItemStack getContext(ServerLevel world, ServerPlayer player, InteractionHand hand) {
+        return player.getItemInHand(hand);
     }
 }

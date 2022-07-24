@@ -2,33 +2,26 @@ package me.alphamode.portablecrafting.data;
 
 import me.alphamode.portablecrafting.PortableTables;
 import me.alphamode.portablecrafting.PortableTags;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.world.item.Items;
+import net.minecraftforge.common.data.ExistingFileHelper;
 
-public class TagGen extends FabricTagProvider<Item> {
-    /**
-     * Construct a new {@link FabricTagProvider}.
-     *
-     * <p>Common implementations of this class are provided. For example @see BlockTagProvider
-     *
-     * @param dataGenerator The data generator instance
-     */
-    protected TagGen(FabricDataGenerator dataGenerator) {
-        super(dataGenerator, Registry.ITEM);
+public class TagGen extends ItemTagsProvider {
+    protected TagGen(DataGenerator dataGenerator, ExistingFileHelper existingFileHelper) {
+        super(dataGenerator, new BlockTagsProvider(dataGenerator, PortableTables.MOD_ID, existingFileHelper), PortableTables.MOD_ID, existingFileHelper);
     }
 
     @Override
-    protected void generateTags() {
-        getOrCreateTagBuilder(PortableTags.PORTABLE_WORKBENCH).add(PortableTables.PORTABLE_CRAFTING);
-        getOrCreateTagBuilder(PortableTags.WOODEN_RODS);
-        getOrCreateTagBuilder(PortableTags.STICKS).add(Items.STICK).addTag(PortableTags.WOODEN_RODS);
-        getOrCreateTagBuilder(PortableTags.WORKBENCHES);
-        getOrCreateTagBuilder(PortableTags.WORKBENCH).add(Items.CRAFTING_TABLE).addTag(PortableTags.WORKBENCHES);
-        getOrCreateTagBuilder(PortableTags.PORTABLE_FURNACE).add(PortableTables.PORTABLE_FURNACE);
-        getOrCreateTagBuilder(PortableTags.PORTABLE_TABLES)
+    protected void addTags() {
+        tag(PortableTags.PORTABLE_WORKBENCH).add(PortableTables.PORTABLE_CRAFTING.get());
+        tag(PortableTags.WOODEN_RODS);
+        tag(PortableTags.STICKS).add(Items.STICK).addTag(PortableTags.WOODEN_RODS);
+        tag(PortableTags.WORKBENCHES);
+        tag(PortableTags.WORKBENCH).add(Items.CRAFTING_TABLE).addTag(PortableTags.WORKBENCHES);
+        tag(PortableTags.PORTABLE_FURNACE).add(PortableTables.PORTABLE_FURNACE.get());
+        tag(PortableTags.PORTABLE_TABLES)
                 .addTag(PortableTags.PORTABLE_WORKBENCH)
                 .addTag(PortableTags.PORTABLE_FURNACE);
     }

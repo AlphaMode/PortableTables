@@ -2,60 +2,58 @@ package me.alphamode.portablecrafting.data;
 
 import me.alphamode.portablecrafting.PortableTables;
 import me.alphamode.portablecrafting.PortableTags;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.advancement.criterion.InventoryChangedCriterion;
-import net.minecraft.data.server.recipe.RecipeJsonProvider;
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
-import net.minecraft.item.Items;
-import net.minecraft.predicate.item.ItemPredicate;
-import net.minecraft.tag.ItemTags;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Items;
 
 import java.util.function.Consumer;
 
-public class RecipeGen extends FabricRecipeProvider {
-    public RecipeGen(FabricDataGenerator dataGenerator) {
+public class RecipeGen extends RecipeProvider {
+    public RecipeGen(DataGenerator dataGenerator) {
         super(dataGenerator);
     }
 
     @Override
-    protected void generateRecipes(Consumer<RecipeJsonProvider> exporter) {
+    protected void buildCraftingRecipes(Consumer<FinishedRecipe> exporter) {
 
-        ShapedRecipeJsonBuilder.create(PortableTables.PORTABLE_CRAFTING)
-                .criterion("always", InventoryChangedCriterion.Conditions.items(ItemPredicate.ANY))
-                .input('C', PortableTags.WORKBENCH)
-                .input('S', PortableTags.STICKS)
+        ShapedRecipeBuilder.shaped(PortableTables.PORTABLE_CRAFTING.get())
+//                .criterion("always", InventoryChangedCriterion.Conditions.items(ItemPredicate.ANY))
+                .define('C', PortableTags.WORKBENCH)
+                .define('S', PortableTags.STICKS)
                 .pattern(" C")
                 .pattern("S ")
-                .offerTo(exporter, PortableTables.asResource("portable_crafting_table_short"));
-        ShapedRecipeJsonBuilder.create(PortableTables.PORTABLE_CRAFTING)
-                .criterion("always", InventoryChangedCriterion.Conditions.items(ItemPredicate.ANY))
-                .input('W', ItemTags.PLANKS)
-                .input('S', PortableTags.STICKS)
+                .save(exporter, PortableTables.asResource("portable_crafting_table_short"));
+        ShapedRecipeBuilder.shaped(PortableTables.PORTABLE_CRAFTING.get())
+//                .criterion("always", InventoryChangedCriterion.Conditions.items(ItemPredicate.ANY))
+                .define('W', ItemTags.PLANKS)
+                .define('S', PortableTags.STICKS)
                 .pattern(" WW")
                 .pattern(" WW")
                 .pattern("S  ")
-                .offerTo(exporter, PortableTables.asResource("portable_crafting_table"));
-        ShapedRecipeJsonBuilder.create(PortableTables.PORTABLE_FURNACE)
-                .criterion("always", InventoryChangedCriterion.Conditions.items(ItemPredicate.ANY))
-                .input('F', Items.FURNACE)
-                .input('S', PortableTags.STICKS)
+                .save(exporter, PortableTables.asResource("portable_crafting_table"));
+        ShapedRecipeBuilder.shaped(PortableTables.PORTABLE_FURNACE.get())
+//                .criterion("always", InventoryChangedCriterion.Conditions.items(ItemPredicate.ANY))
+                .define('F', Items.FURNACE)
+                .define('S', PortableTags.STICKS)
                 .pattern(" F")
                 .pattern("S ")
-                .offerTo(exporter, PortableTables.asResource("portable_furnace"));
-        ShapedRecipeJsonBuilder.create(PortableTables.PORTABLE_SMOKER)
-                .criterion("always", InventoryChangedCriterion.Conditions.items(ItemPredicate.ANY))
-                .input('F', Items.SMOKER)
-                .input('S', PortableTags.STICKS)
+                .save(exporter, PortableTables.asResource("portable_furnace"));
+        ShapedRecipeBuilder.shaped(PortableTables.PORTABLE_SMOKER.get())
+//                .criterion("always", InventoryChangedCriterion.Conditions.items(ItemPredicate.ANY))
+                .define('F', Items.SMOKER)
+                .define('S', PortableTags.STICKS)
                 .pattern(" F")
                 .pattern("S ")
-                .offerTo(exporter, PortableTables.asResource("portable_smoker"));
-        ShapedRecipeJsonBuilder.create(PortableTables.PORTABLE_BLAST_FURNACE)
-                .criterion("always", InventoryChangedCriterion.Conditions.items(ItemPredicate.ANY))
-                .input('F', Items.BLAST_FURNACE)
-                .input('S', PortableTags.STICKS)
+                .save(exporter, PortableTables.asResource("portable_smoker"));
+        ShapedRecipeBuilder.shaped(PortableTables.PORTABLE_BLAST_FURNACE.get())
+//                .criterion("always", InventoryChangedCriterion.Conditions.items(ItemPredicate.ANY))
+                .define('F', Items.BLAST_FURNACE)
+                .define('S', PortableTags.STICKS)
                 .pattern(" F")
                 .pattern("S ")
-                .offerTo(exporter, PortableTables.asResource("portable_blast_furnace"));
+                .save(exporter, PortableTables.asResource("portable_blast_furnace"));
     }
 }

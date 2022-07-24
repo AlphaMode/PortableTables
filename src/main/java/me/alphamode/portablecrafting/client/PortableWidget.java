@@ -1,25 +1,25 @@
 package me.alphamode.portablecrafting.client;
 
-import me.alphamode.portablecrafting.PortableTables;
+import com.mojang.blaze3d.vertex.PoseStack;
+import me.alphamode.portablecrafting.network.OpenPacket;
+import me.alphamode.portablecrafting.network.PortableNetwork;
 import me.alphamode.portablecrafting.tables.AllTables;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
-import net.minecraft.client.gui.screen.narration.NarrationPart;
-import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.Item;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.narration.NarratedElementType;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
+import net.minecraftforge.network.PacketDistributor;
 
-public class PortableWidget extends ClickableWidget {
+public class PortableWidget extends AbstractWidget {
 
     private boolean visible = false;
     private final Item item;
     private final AllTables type;
 
     public PortableWidget(Item item, AllTables type) {
-        super(0,0, 15, 15, Text.empty());
+        super(0,0, 15, 15, Component.empty());
         this.item = item;
         this.type = type;
     }
@@ -29,14 +29,14 @@ public class PortableWidget extends ClickableWidget {
     }
 
     @Override
-    public void appendNarrations(NarrationMessageBuilder builder) {
-        builder.put(NarrationPart.USAGE, Text.empty());
+    public void updateNarration(NarrationElementOutput builder) {
+        builder.add(NarratedElementType.USAGE, Component.empty());
     }
 
     @Override
-    public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void renderButton(PoseStack matrices, int mouseX, int mouseY, float delta) {
         if(isVisible())
-            MinecraftClient.getInstance().getItemRenderer().renderGuiItemIcon(item.getDefaultStack(),  this.x, isHovered() ? this.y - 1 : this.y);
+            Minecraft.getInstance().getItemRenderer().renderGuiItem(item.getDefaultInstance(),  this.x, isHoveredOrFocused() ? this.y - 1 : this.y);
     }
 
     public void setPos(int x, int y) {
@@ -46,7 +46,7 @@ public class PortableWidget extends ClickableWidget {
 
     @Override
     public void onClick(double mouseX, double mouseY) {
-        ClientPlayNetworking.send(PortableTables.asResource("open"), PacketByteBufs.create().writeEnumConstant(type));
+        PortableNetwork.CHANNEL.send(PacketDistributor.SERVER.noArg(), new OpenPacket(type));
     }
 
     @Override

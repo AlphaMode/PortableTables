@@ -1,41 +1,40 @@
 package me.alphamode.portablecrafting.tables.furnace;
 
-import me.alphamode.portablecrafting.mixin.accessor.AbstractFurnaceBlockEntityAccessor;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.recipe.AbstractCookingRecipe;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.world.World;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.Container;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 
 public class StackSlot extends Slot {
 
     private final ItemStack pFurnace;
-    private final PlayerEntity player;
+    private final Player player;
 
-    public StackSlot(PlayerEntity player, Inventory inventory, int index, int x, int y, ItemStack itemStack) {
+    public StackSlot(Player player, Container inventory, int index, int x, int y, ItemStack itemStack) {
         super(inventory, index, x, y);
         this.pFurnace = itemStack;
         this.player = player;
     }
 
-    private static int getCookTime(World world, RecipeType<? extends AbstractCookingRecipe> recipeType, Inventory inventory) {
-        return world.getRecipeManager().getFirstMatch(recipeType, inventory, world).map(AbstractCookingRecipe::getCookTime).orElse(200);
+    private static int getCookTime(Level world, RecipeType<? extends AbstractCookingRecipe> recipeType, Container inventory) {
+        return world.getRecipeManager().getRecipeFor(recipeType, inventory, world).map(AbstractCookingRecipe::getCookingTime).orElse(200);
     }
 
     @Override
-    public void setStack(ItemStack stack) {
-        super.setStack(stack);
-        DefaultedList<ItemStack> itemInv = DefaultedList.ofSize(3, ItemStack.EMPTY);
-        NbtCompound nbt = pFurnace.getOrCreateNbt();
-        Inventories.readNbt(nbt, itemInv);
-        itemInv.set(getIndex(), stack);
+    public void set(ItemStack stack) {
+        super.set(stack);
+        NonNullList<ItemStack> itemInv = NonNullList.withSize(3, ItemStack.EMPTY);
+        CompoundTag nbt = pFurnace.getOrCreateTag();
+        ContainerHelper.loadAllItems(nbt, itemInv);
+        itemInv.set(getSlotIndex(), stack);
         if (!pFurnace.isEmpty())
-            nbt.putShort("CookTimeTotal", (short) getCookTime(player.getWorld(), ((PortableFurnace)pFurnace.getItem()).getFurnaceType(), inventory));
-        Inventories.writeNbt(nbt, itemInv);
+            nbt.putShort("CookTimeTotal", (short) getCookTime(player.getLevel(), ((PortableFurnace)pFurnace.getItem()).getFurnaceType(), container));
+        ContainerHelper.saveAllItems(nbt, itemInv);
     }
 }

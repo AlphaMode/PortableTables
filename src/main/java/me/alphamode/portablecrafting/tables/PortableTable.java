@@ -1,43 +1,39 @@
 package me.alphamode.portablecrafting.tables;
 
 import me.alphamode.portablecrafting.PortableTables;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.world.World;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class PortableTable<C> extends Item {
 
-    protected final BiConsumer<PlayerEntity, C> open;
+    protected final BiConsumer<Player, C> open;
     private final AllTables type;
 
-    public PortableTable(BiConsumer<PlayerEntity, C> player, AllTables type) {
-        super(new FabricItemSettings().group(PortableTables.TABLE_GROUP));
+    public PortableTable(BiConsumer<Player, C> player, AllTables type) {
+        super(new Item.Properties().tab(PortableTables.TABLE_GROUP));
         this.open = player;
         this.type = type;
     }
 
     @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if(world.isClient())
-            return TypedActionResult.pass(user.getStackInHand(hand));
-        open.accept(user, getContext((ServerWorld) world, (ServerPlayerEntity) user, hand));
-        return TypedActionResult.success(user.getStackInHand(hand));
+    public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
+        if(world.isClientSide())
+            return InteractionResultHolder.pass(user.getItemInHand(hand));
+        open.accept(user, getContext((ServerLevel) world, (ServerPlayer) user, hand));
+        return InteractionResultHolder.success(user.getItemInHand(hand));
     }
 
     @Nullable
-    protected C getContext(ServerWorld world, ServerPlayerEntity player, Hand hand) {
+    protected C getContext(ServerLevel world, ServerPlayer player, InteractionHand hand) {
         return null;
     }
 

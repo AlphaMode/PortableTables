@@ -3,42 +3,45 @@ package me.alphamode.portablecrafting.tables.furnace;
 import me.alphamode.portablecrafting.PortableTables;
 import me.alphamode.portablecrafting.PortableTags;
 import me.alphamode.portablecrafting.tables.furnace.client.PortableFurnaceHandler;
-import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.recipe.*;
-import net.minecraft.recipe.book.RecipeBookCategory;
-import net.minecraft.screen.*;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.stat.Stats;
-import net.minecraft.text.Text;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.world.World;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.Container;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.StackedContents;
+import net.minecraft.world.inventory.*;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraftforge.common.util.RecipeMatcher;
 
 import java.util.OptionalInt;
 
-public class PortableFurnaceScreenHandler extends AbstractRecipeScreenHandler<Inventory> {
+public class PortableFurnaceScreenHandler extends RecipeBookMenu<Container> {
 
     protected final ItemStack pFurnace;
-    public Inventory inventory;
-    private final PropertyDelegate propertyDelegate = new ArrayPropertyDelegate(4);
-    protected final World world;
+    public Container inventory;
+    private final ContainerData propertyDelegate = new SimpleContainerData(4);
+    protected final Level world;
 
-    public PortableFurnaceScreenHandler(int syncId, PlayerInventory playerInventory) {
-        this(syncId, playerInventory, new SimpleInventory(3), ItemStack.EMPTY);
+    public PortableFurnaceScreenHandler(int syncId, Inventory playerInventory) {
+        this(syncId, playerInventory, new SimpleContainer(3), ItemStack.EMPTY);
     }
 
-    public PortableFurnaceScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, ItemStack pFurnace) {
-        super(PortableTables.PORTABLE_FURNACE_HANDLER, syncId);
-        checkSize(inventory, 3);
-        checkDataCount(propertyDelegate, 4);
+    public PortableFurnaceScreenHandler(int syncId, Inventory playerInventory, Container inventory, ItemStack pFurnace) {
+        super(PortableTables.PORTABLE_FURNACE_HANDLER.get(), syncId);
+        checkContainerSize(inventory, 3);
+        checkContainerDataCount(propertyDelegate, 4);
         this.inventory = inventory;
-        this.world = playerInventory.player.world;
+        this.world = playerInventory.player.getLevel();
         this.addSlot(new StackSlot(playerInventory.player, inventory, 0, 56, 17, pFurnace));
         this.addSlot(new PortableFurnaceFuelSlot(this, inventory, 1, 56, 53, pFurnace));
         this.addSlot(new PortableFurnaceOutputSlot(playerInventory.player, inventory, 2, 116, 35, pFurnace));
@@ -53,127 +56,127 @@ public class PortableFurnaceScreenHandler extends AbstractRecipeScreenHandler<In
             this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
         }
 
-        this.addProperties(propertyDelegate);
+        this.addDataSlots(propertyDelegate);
         this.pFurnace = pFurnace;
     }
 
     @Override
-    public void close(PlayerEntity player) {
-        super.close(player);
+    public void removed(Player player) {
+        super.removed(player);
 
-        PortableFurnaceHandler.propertySync.remove(syncId);
+        PortableFurnaceHandler.propertySync.remove(containerId);
     }
 
     @Override
-    public boolean canUse(PlayerEntity player) {
+    public boolean stillValid(Player player) {
         return player.getInventory().contains(PortableTags.PORTABLE_FURNACE);
     }
 
-    private static int getCookTime(World world, RecipeType<? extends AbstractCookingRecipe> recipeType, Inventory inventory) {
-        return world.getRecipeManager().getFirstMatch(recipeType, inventory, world).map(AbstractCookingRecipe::getCookTime).orElse(200);
+    private static int getCookTime(Level world, RecipeType<? extends AbstractCookingRecipe> recipeType, Container inventory) {
+        return world.getRecipeManager().getRecipeFor(recipeType, inventory, world).map(AbstractCookingRecipe::getCookingTime).orElse(200);
     }
 
-    public static void openTable(PlayerEntity player, ItemStack stack) {
-        if(stack.getNbt() == null)
+    public static void openTable(Player player, ItemStack stack) {
+        if(stack.getTag() == null)
             return;
-        DefaultedList<ItemStack> itemInv = DefaultedList.ofSize(3, ItemStack.EMPTY);
-        Inventories.readNbt(stack.getNbt(), itemInv);
-        Inventory furnaceInv = new SimpleInventory(itemInv.get(0), itemInv.get(1), itemInv.get(2));
-        OptionalInt syncID = player.openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, inventory, playerEntity) -> new PortableFurnaceScreenHandler(syncId, player.getInventory(), furnaceInv, stack), Text.translatable("container.furnace")));
-        player.incrementStat(Stats.INTERACT_WITH_FURNACE);
-        stack.getNbt().putInt("currentSyncId", syncID.orElseThrow());
+        NonNullList<ItemStack> itemInv = NonNullList.withSize(3, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(stack.getTag(), itemInv);
+        Container furnaceInv = new SimpleContainer(itemInv.get(0), itemInv.get(1), itemInv.get(2));
+        OptionalInt syncID = player.openMenu(new SimpleMenuProvider((syncId, inventory, Player) -> new PortableFurnaceScreenHandler(syncId, player.getInventory(), furnaceInv, stack), Component.translatable("container.furnace")));
+        player.awardStat(Stats.INTERACT_WITH_FURNACE);
+        stack.getTag().putInt("currentSyncId", syncID.orElseThrow());
     }
 
     @Override
-    public void populateRecipeFinder(RecipeMatcher finder) {
-        if (this.inventory instanceof RecipeInputProvider) {
-            ((RecipeInputProvider)this.inventory).provideRecipeInputs(finder);
+    public void fillCraftSlotsStackedContents(StackedContents finder) {
+        if (this.inventory instanceof StackedContentsCompatible) {
+            ((StackedContentsCompatible)this.inventory).fillStackedContents(finder);
         }
     }
 
     @Override
-    public void clearCraftingSlots() {
-        this.getSlot(0).setStack(ItemStack.EMPTY);
-        this.getSlot(2).setStack(ItemStack.EMPTY);
+    public void clearCraftingContent() {
+        this.getSlot(0).set(ItemStack.EMPTY);
+        this.getSlot(2).set(ItemStack.EMPTY);
     }
 
     @Override
-    public boolean matches(Recipe<? super Inventory> recipe) {
+    public boolean recipeMatches(Recipe<? super Container> recipe) {
         return recipe.matches(this.inventory, this.world);
     }
 
     @Override
-    public int getCraftingResultSlotIndex() {
+    public int getResultSlotIndex() {
         return 2;
     }
 
     @Override
-    public int getCraftingWidth() {
+    public int getGridWidth() {
         return 1;
     }
 
     @Override
-    public int getCraftingHeight() {
+    public int getGridHeight() {
         return 1;
     }
 
     @Override
-    public int getCraftingSlotCount() {
+    public int getSize() {
         return 3;
     }
 
     @Override
-    public RecipeBookCategory getCategory() {
-        return RecipeBookCategory.FURNACE;
+    public RecipeBookType getRecipeBookType() {
+        return RecipeBookType.FURNACE;
     }
 
     @Override
-    public ItemStack transferSlot(PlayerEntity player, int index) {
+    public ItemStack quickMoveStack(Player player, int index) {
         ItemStack itemStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
-        if (slot != null && slot.hasStack()) {
-            ItemStack itemStack2 = slot.getStack();
+        if (slot != null && slot.hasItem()) {
+            ItemStack itemStack2 = slot.getItem();
             itemStack = itemStack2.copy();
             if (index == 2) {
-                if (!this.insertItem(itemStack2, 3, 39, true)) {
+                if (!this.moveItemStackTo(itemStack2, 3, 39, true)) {
                     return ItemStack.EMPTY;
                 }
 
-                slot.onQuickTransfer(itemStack2, itemStack);
+                slot.onQuickCraft(itemStack2, itemStack);
             } else if (index != 1 && index != 0) {
                 if (this.isSmeltable(itemStack2)) {
-                    NbtCompound nbt = pFurnace.getNbt();
-                    nbt.putShort("CookTimeTotal", (short) getCookTime(player.getWorld(), ((PortableFurnace)pFurnace.getItem()).getFurnaceType(), this.inventory));
+                    CompoundTag nbt = pFurnace.getTag();
+                    nbt.putShort("CookTimeTotal", (short) getCookTime(player.getLevel(), ((PortableFurnace)pFurnace.getItem()).getFurnaceType(), this.inventory));
                     nbt.putShort("CookTime", (short) 0);
-                    if (!this.insertItem(itemStack2, 0, 1, false)) {
+                    if (!this.moveItemStackTo(itemStack2, 0, 1, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (AbstractFurnaceBlockEntity.canUseAsFuel(itemStack2)) {
-                    if (!this.insertItem(itemStack2, 1, 2, false)) {
+                } else if (AbstractFurnaceBlockEntity.isFuel(itemStack2)) {
+                    if (!this.moveItemStackTo(itemStack2, 1, 2, false)) {
                         return ItemStack.EMPTY;
                     }
                 } else if (index >= 3 && index < 30) {
-                    if (!this.insertItem(itemStack2, 30, 39, false)) {
+                    if (!this.moveItemStackTo(itemStack2, 30, 39, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (index >= 30 && index < 39 && !this.insertItem(itemStack2, 3, 30, false)) {
+                } else if (index >= 30 && index < 39 && !this.moveItemStackTo(itemStack2, 3, 30, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.insertItem(itemStack2, 3, 39, false)) {
+            } else if (!this.moveItemStackTo(itemStack2, 3, 39, false)) {
                 return ItemStack.EMPTY;
             }
 
             if (itemStack2.isEmpty()) {
-                slot.setStack(ItemStack.EMPTY);
+                slot.set(ItemStack.EMPTY);
             } else {
-                slot.markDirty();
+                slot.setChanged();
             }
 
             if (itemStack2.getCount() == itemStack.getCount()) {
                 return ItemStack.EMPTY;
             }
 
-            slot.onTakeItem(player, itemStack2);
+            slot.onTake(player, itemStack2);
         }
 
         return itemStack;
@@ -181,12 +184,12 @@ public class PortableFurnaceScreenHandler extends AbstractRecipeScreenHandler<In
 
     protected boolean isSmeltable(ItemStack itemStack) {
         if (!pFurnace.isEmpty())
-            return this.world.getRecipeManager().getFirstMatch(((PortableFurnace)pFurnace.getItem()).getFurnaceType(), new SimpleInventory(itemStack), this.world).isPresent();
+            return this.world.getRecipeManager().getRecipeFor(((PortableFurnace)pFurnace.getItem()).getFurnaceType(), new SimpleContainer(itemStack), this.world).isPresent();
         return false;
     }
 
     @Override
-    public boolean canInsertIntoSlot(int index) {
+    public boolean shouldMoveToInventory(int index) {
         return index != 1;
     }
 }

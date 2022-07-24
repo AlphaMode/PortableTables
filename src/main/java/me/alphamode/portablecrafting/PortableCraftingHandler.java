@@ -1,26 +1,26 @@
 package me.alphamode.portablecrafting;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.screen.CraftingScreenHandler;
-import net.minecraft.screen.ScreenHandlerContext;
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
-import net.minecraft.stat.Stats;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.CraftingMenu;
 
-public class PortableCraftingHandler extends CraftingScreenHandler {
+public class PortableCraftingHandler extends CraftingMenu {
 
-    public PortableCraftingHandler(int i, PlayerInventory playerInventory, ScreenHandlerContext screenHandlerContext) {
-        super(i, playerInventory, screenHandlerContext);
+    public PortableCraftingHandler(int i, Inventory playerInventory, ContainerLevelAccess ContainerLevelAccess) {
+        super(i, playerInventory, ContainerLevelAccess);
     }
 
     @Override
-    public boolean canUse(PlayerEntity player) {
+    public boolean stillValid(Player player) {
         return player.getInventory().contains(PortableTags.PORTABLE_WORKBENCH);
     }
 
-    public static void openTable(PlayerEntity player, Void context) {
-        player.openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, inventory, playerEntity) -> new PortableCraftingHandler(syncId, inventory, ScreenHandlerContext.create(playerEntity.world, playerEntity.getBlockPos())), Text.translatable("container.crafting")));
-        player.incrementStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
+    public static void openTable(Player player, Void context) {
+        player.openMenu(new SimpleMenuProvider((syncId, inventory, Player) -> new PortableCraftingHandler(syncId, inventory, ContainerLevelAccess.create(Player.getLevel(), Player.getOnPos())), Component.translatable("container.crafting")));
+        player.awardStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
     }
 }

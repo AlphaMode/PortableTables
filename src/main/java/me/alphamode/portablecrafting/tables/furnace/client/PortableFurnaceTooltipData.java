@@ -1,22 +1,22 @@
 package me.alphamode.portablecrafting.tables.furnace.client;
 
 import me.alphamode.portablecrafting.tables.furnace.PortableFurnace;
-import net.minecraft.client.item.TooltipData;
-import net.minecraft.inventory.Inventories;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
+import net.minecraft.world.item.ItemStack;
 
-public class PortableFurnaceTooltipData implements TooltipData {
-    protected final DefaultedList<ItemStack> inventory;
+public class PortableFurnaceTooltipData implements TooltipComponent {
+    protected final NonNullList<ItemStack> inventory;
     private final int burnProgress, cookProgress;
     protected final ItemStack furnaceStack;
     private final boolean isBurning;
 
     public PortableFurnaceTooltipData(ItemStack furnaceStack) {
-        NbtCompound nbt = furnaceStack.getOrCreateNbt();
-        this.inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
-        Inventories.readNbt(nbt, this.inventory);
+        CompoundTag nbt = furnaceStack.getOrCreateTag();
+        this.inventory = NonNullList.withSize(3, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(nbt, this.inventory);
         short burnTime = nbt.getShort("BurnTime");
         this.isBurning = burnTime > 0;
         int i = PortableFurnace.getFuelTime(inventory.get(1));
@@ -42,7 +42,7 @@ public class PortableFurnaceTooltipData implements TooltipData {
         return this.cookProgress;
     }
 
-    public DefaultedList<ItemStack> getInventory() {
+    public NonNullList<ItemStack> getInventory() {
         return this.inventory;
     }
 }
