@@ -24,7 +24,7 @@ public abstract class InventoryScreenMixin extends AbstractContainerScreen<Inven
         super(screenHandler, playerInventory, text);
     }
 
-    @Inject(method = "lambda$init$0", at = @At("RETURN"))
+    @Inject(method = {"lambda$init$0", "m_98879_"}, at = @At("RETURN"))
     public void onOpen(CallbackInfo ci) {
         for (GuiEventListener widget : children()) {
             if(widget instanceof PortableWidget craftingWidget) {

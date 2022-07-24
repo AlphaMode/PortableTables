@@ -1,6 +1,9 @@
 {
   "item.portable_tables.portable_crafting_table": "Портативный верстак",
+  "item.portable_tables.portable_furnace": "Портативная печь",
+  "item.portable_tables.portable_blast_furnace": "Портативная плавильная печь",
+  "item.portable_tables.portable_smoker": "Портативная коптильня",
   "key.portable_tables.open_craft": "Открыть портативный верстак",
   "key.categories.portable_tables": "Портативные верстаки",
-  "itemGroup.portable_tables.tables": "Портативные верстаки"
+  "itemGroup.tables": "Портативные верстаки"
 }
