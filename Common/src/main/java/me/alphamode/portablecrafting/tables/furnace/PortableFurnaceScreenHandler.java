@@ -69,7 +69,15 @@ public class PortableFurnaceScreenHandler extends AbstractRecipeScreenHandler<In
 
     @Override
     public boolean canUse(PlayerEntity player) {
-        return player.getInventory().contains(PortableTags.PORTABLE_FURNACE);
+        if (pFurnace.getItem() instanceof PortableFurnace portableFurnace) {
+            if (portableFurnace.furnaceType == RecipeType.SMOKING)
+                return player.getInventory().contains(PortableTags.PORTABLE_SMOKER);
+            else if (portableFurnace.furnaceType == RecipeType.BLASTING)
+                return player.getInventory().contains(PortableTags.PORTABLE_BLAST_FURNACE);
+            else if (portableFurnace.furnaceType == RecipeType.SMELTING)
+                return player.getInventory().contains(PortableTags.PORTABLE_FURNACE);
+        }
+        return false;
     }
 
     private static int getCookTime(World world, RecipeType<? extends AbstractCookingRecipe> recipeType, Inventory inventory) {

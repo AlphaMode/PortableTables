@@ -9,14 +9,15 @@ import net.minecraft.client.gui.screen.narration.NarrationPart;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 
 public class PortableWidget extends ClickableWidget {
 
     private boolean visible = false;
-    private final Item item;
-    private final AllTables type;
+    private Item item;
+    private AllTables type;
 
     public PortableWidget(Item item, AllTables type) {
         super(0,0, 15, 15, LiteralText.EMPTY);
@@ -37,6 +38,16 @@ public class PortableWidget extends ClickableWidget {
     public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         if(isVisible())
             MinecraftClient.getInstance().getItemRenderer().renderGuiItemIcon(item.getDefaultStack(),  this.x, isHovered() ? this.y - 1 : this.y);
+    }
+
+    public void setType(AllTables type) {
+        this.type = type;
+        if (type == AllTables.FURNACE)
+            this.item = Items.FURNACE;
+        else if (type == AllTables.BLAST)
+            this.item = Items.BLAST_FURNACE;
+        else if (type == AllTables.SMOKER)
+            this.item = Items.SMOKER;
     }
 
     public void setPos(int x, int y) {

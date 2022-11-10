@@ -1,14 +1,16 @@
-// 1.19.2	2022-11-09T21:51:18.641995687	Tags for minecraft:item
+// 1.19.2	2022-11-10T14:43:52.616396366	Tags for minecraft:item
+e513149c3b42d797b8d6fb0db74c0a2af274e50b data/c/tags/items/portable/grindstone.json
 8a23702b05296c8af5014d6aa6e9265ded85c7d9 data/c/tags/items/workbenches.json
-067c1a5ee58e63a44cd93a4fa24a71742cfb8a83 data/c/tags/items/portable_smithing.json
-039c77457be55c9edb9b82a29e04fc51c026d1c2 data/c/tags/items/portable_loom.json
-50e5cab65b5cb8e39203622fef3df89737869180 data/c/tags/items/portable_anvil.json
+8d024d16da8d970a2a497babc7ed5da957630603 data/c/tags/items/portable/workbench.json
+4cd5d62f3612fc5137ac7e09f456fd51efcb53d9 data/c/tags/items/portable/smoker.json
 50219817d637a5d9e1c910762652c6ee3d6a290c data/c/tags/items/wood_sticks.json
-5813b4047c8363bc48963c929ba4cbe894eb89c5 data/c/tags/items/portable_tables.json
-f14f5355fa2ee0865aa9bed54eab3147864bf8ea data/c/tags/items/portable_stonecutter.json
+3ce7139ba385dd4aca8d01b50cd9020a664d8db3 data/c/tags/items/portable/blast_furnace.json
+2a046be7a019eaffdab2bd41092ed23bcf12e429 data/c/tags/items/portable_tables.json
+067c1a5ee58e63a44cd93a4fa24a71742cfb8a83 data/c/tags/items/portable/smithing.json
 8a23702b05296c8af5014d6aa6e9265ded85c7d9 data/c/tags/items/wooden_rods.json
-6fd2b57002bcbe418b6e2575ccf7b9a3891a9919 data/c/tags/items/portable_furnace.json
+039c77457be55c9edb9b82a29e04fc51c026d1c2 data/c/tags/items/portable/loom.json
+02704ec483f8cbb74c651e8fb7b714713c69282f data/c/tags/items/portable/catography_table.json
+6fd2b57002bcbe418b6e2575ccf7b9a3891a9919 data/c/tags/items/portable/furnace.json
+f14f5355fa2ee0865aa9bed54eab3147864bf8ea data/c/tags/items/portable/stonecutter.json
 65031fc2171cf365e6a29008e9fef97549935f65 data/c/tags/items/workbench.json
-8d024d16da8d970a2a497babc7ed5da957630603 data/c/tags/items/portable_workbench.json
-e513149c3b42d797b8d6fb0db74c0a2af274e50b data/c/tags/items/portable_grindstone.json
-02704ec483f8cbb74c651e8fb7b714713c69282f data/c/tags/items/portable_catography_table.json
+50e5cab65b5cb8e39203622fef3df89737869180 data/c/tags/items/portable/anvil.json

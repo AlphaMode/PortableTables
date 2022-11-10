@@ -21,6 +21,8 @@ public class TagGen extends FabricTagProvider.ItemTagProvider {
         getOrCreateTagBuilder(PortableTags.WORKBENCHES);
         getOrCreateTagBuilder(PortableTags.WORKBENCH).add(Items.CRAFTING_TABLE).addTag(PortableTags.WORKBENCHES);
         getOrCreateTagBuilder(PortableTags.PORTABLE_FURNACE).add(PortableTables.PORTABLE_FURNACE.get());
+        getOrCreateTagBuilder(PortableTags.PORTABLE_SMOKER).add(PortableTables.PORTABLE_SMOKER.get());
+        getOrCreateTagBuilder(PortableTags.PORTABLE_BLAST_FURNACE).add(PortableTables.PORTABLE_BLAST_FURNACE.get());
         getOrCreateTagBuilder(PortableTags.PORTABLE_ANVIL).add(PortableTables.PORTABLE_ANVIL.get()).add(PortableTables.PORTABLE_CHIPPED_ANVIL.get()).add(PortableTables.PORTABLE_DAMAGED_ANVIL.get());
         getOrCreateTagBuilder(PortableTags.PORTABLE_SMITHING).add(PortableTables.PORTABLE_SMITHING.get());
         getOrCreateTagBuilder(PortableTags.PORTABLE_LOOM).add(PortableTables.PORTABLE_LOOM.get());
@@ -30,13 +32,13 @@ public class TagGen extends FabricTagProvider.ItemTagProvider {
         getOrCreateTagBuilder(PortableTags.PORTABLE_TABLES)
                 .addTag(PortableTags.PORTABLE_WORKBENCH)
                 .addTag(PortableTags.PORTABLE_FURNACE)
+                .addTag(PortableTags.PORTABLE_SMOKER)
+                .addTag(PortableTags.PORTABLE_BLAST_FURNACE)
                 .addTag(PortableTags.PORTABLE_ANVIL)
                 .addTag(PortableTags.PORTABLE_SMITHING)
                 .addTag(PortableTags.PORTABLE_LOOM)
                 .addTag(PortableTags.PORTABLE_GRINDSTONE)
                 .addTag(PortableTags.PORTABLE_CARTOGRAPHY_TABLE)
-                .addTag(PortableTags.PORTABLE_STONECUTTER)
-                .add(PortableTables.PORTABLE_SMOKER.get())
-                .add(PortableTables.PORTABLE_BLAST_FURNACE.get());
+                .addTag(PortableTags.PORTABLE_STONECUTTER);
     }
 }

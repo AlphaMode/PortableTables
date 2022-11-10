@@ -12,7 +12,6 @@ architectury {
 loom {
     forge {
         mixinConfig "portablecrafting-common.mixins.json"
-        mixinConfig "portablecrafting.mixins.json"
     }
 }
 
