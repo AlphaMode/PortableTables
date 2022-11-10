@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.alphamode.portablecrafting.fabric.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "InventoryScreenMixin",
+    "accessor.AbstractFurnaceBlockEntityAccessor"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

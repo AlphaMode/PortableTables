@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.alphamode.portablecrafting.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "accessor.BellBlockEntityAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

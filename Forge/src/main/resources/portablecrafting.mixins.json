@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "plugin": "me.alphamode.portablecrafting.forge.mixin.PortableMixinPlugin",
+  "package": "me.alphamode.portablecrafting.forge.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "InventoryScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

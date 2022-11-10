@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "portable_tables:portable_anvil",
+    "portable_tables:portable_chipped_anvil",
+    "portable_tables:portable_damaged_anvil"
+  ]
+}

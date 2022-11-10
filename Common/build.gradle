@@ -1,0 +1,35 @@
+architectury {
+    common(rootProject.enabled_platforms.split(","))
+}
+
+archivesBaseName = "${mod_name}-common-${minecraft_version}"
+
+dependencies {
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.loader_version}"
+}
+
+
+loom {
+    sourceSets {
+        main {
+            resources {
+                srcDir("src/generated/resources")
+                exclude("src/generated/resources/.cache")
+            }
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenCommon(MavenPublication) {
+            artifactId = rootProject.archives_base_name
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        // Add repositories to publish to here.
+    }
+}

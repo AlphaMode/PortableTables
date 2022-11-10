@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "S": {
+      "tag": "c:wood_sticks"
+    },
+    "T": {
+      "item": "minecraft:furnace"
+    }
+  },
+  "pattern": [
+    " T",
+    "S "
+  ],
+  "result": {
+    "item": "portable_tables:portable_furnace"
+  }
+}

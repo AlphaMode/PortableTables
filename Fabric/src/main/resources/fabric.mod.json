@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "portable_tables",
+  "version": "${version}",
+  "name": "Portable Tables",
+  "description": "A mod thats adds portable workbench's",
+  "authors": [
+    "AlphaMode"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/portable_tables/textures/item/portable_crafting_table.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "me.alphamode.portablecrafting.fabric.client.FabricPortableTablesClient"
+    ],
+    "main": [
+      "me.alphamode.portablecrafting.fabric.FabricPortableTables"
+    ],
+    "preLaunch": [
+      "me.alphamode.portablecrafting.fabric.PortableTablesPreLaunch"
+    ],
+    "fabric-datagen": [
+      "me.alphamode.portablecrafting.fabric.data.DataGen"
+    ]
+  },
+  "mixins": [
+    "portablecrafting-common.mixins.json",
+    "portablecrafting.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.12.12",
+    "fabric": "*"
+  }
+}
