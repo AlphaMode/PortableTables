@@ -43,11 +43,19 @@ public class PortableTablesClient {
                 if(clickableWidget instanceof PortableWidget portableWidget && portableWidget.getTableType() == AllTables.CRAFTING) portableWidget.setVisible(false);
             });
         }
-        if(client.player != null && client.currentScreen != null && client.player.getInventory().contains(PortableTags.PORTABLE_FURNACE)) {
+        if(client.player != null && client.currentScreen != null && (client.player.getInventory().contains(PortableTags.PORTABLE_FURNACE) || client.player.getInventory().contains(PortableTags.PORTABLE_SMOKER) || client.player.getInventory().contains(PortableTags.PORTABLE_BLAST_FURNACE))) {
             client.currentScreen.children().forEach(clickableWidget -> {
-                if(clickableWidget instanceof PortableWidget portableWidget && portableWidget.getTableType() == AllTables.FURNACE) portableWidget.setVisible(true);
+                if(clickableWidget instanceof PortableWidget portableWidget && portableWidget.getTableType().isFurnaceLike()) {
+                    portableWidget.setVisible(true);
+                    if (client.player.getInventory().contains(PortableTags.PORTABLE_FURNACE))
+                        portableWidget.setType(AllTables.FURNACE);
+                    else if (client.player.getInventory().contains(PortableTags.PORTABLE_BLAST_FURNACE))
+                        portableWidget.setType(AllTables.BLAST);
+                    else if (client.player.getInventory().contains(PortableTags.PORTABLE_SMOKER))
+                        portableWidget.setType(AllTables.SMOKER);
+                }
             });
-        } else if(client.player != null && client.currentScreen != null && !client.player.getInventory().contains(PortableTags.PORTABLE_FURNACE)) {
+        } else if(client.player != null && client.currentScreen != null && !(client.player.getInventory().contains(PortableTags.PORTABLE_FURNACE) || client.player.getInventory().contains(PortableTags.PORTABLE_SMOKER) || client.player.getInventory().contains(PortableTags.PORTABLE_BLAST_FURNACE))) {
             client.currentScreen.children().forEach(clickableWidget -> {
                 if(clickableWidget instanceof PortableWidget portableWidget && portableWidget.getTableType() == AllTables.FURNACE) portableWidget.setVisible(false);
             });
