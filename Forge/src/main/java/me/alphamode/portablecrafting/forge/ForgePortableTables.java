@@ -47,7 +47,7 @@ public class ForgePortableTables {
         PortableTables.PORTABLE_GRINDSTONE = ITEMS.register("portable_grindstone", () -> new PortableTable<>(PortableGrindstoneScreenHandler::openTable, AllTables.GRINDSTONE, new Item.Settings()));
         PortableTables.PORTABLE_CARTOGRAPHY_TABLE = ITEMS.register("portable_cartography_table", () -> new PortableTable<>(PortableCartographyTableScreenHandler::openTable, AllTables.CARTOGRAPHY, new Item.Settings()));
         PortableTables.PORTABLE_STONECUTTER = ITEMS.register("portable_stonecutter", () -> new PortableTable<>(PortableStonecutterScreenHandler::openTable, AllTables.STONECUTTER, new Item.Settings()));
-        PortableTables.PORTABLE_BELL = ITEMS.register("portable_bell", () -> new PortableBell(new Item.Settings().group(PortableTables.TABLE_GROUP)));
+        PortableTables.PORTABLE_BELL = ITEMS.register("portable_bell", () -> ServiceHelper.PLATFORM_HELPER.createPortableBell(new Item.Settings().group(PortableTables.TABLE_GROUP)));
 
         PortableTables.PORTABLE_FURNACE_HANDLER = MENUS.register("portable_furnace", () -> ServiceHelper.PLATFORM_HELPER.createPortableHandler());
 
