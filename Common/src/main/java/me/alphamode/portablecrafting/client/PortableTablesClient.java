@@ -31,8 +31,13 @@ public class PortableTablesClient {
         while (craftingKeyBind.wasPressed() && client.player.getInventory().contains(PortableTags.PORTABLE_WORKBENCH)) {
             ServiceHelper.CLIENT_PLATFORM_HELPER.sendOpenPacket(new OpenPacket(AllTables.CRAFTING));
         }
-        while (furnaceKeyBind.wasPressed() && client.player.getInventory().contains(PortableTags.PORTABLE_FURNACE)) {
-            ServiceHelper.CLIENT_PLATFORM_HELPER.sendOpenPacket(new OpenPacket(AllTables.FURNACE));
+        while (furnaceKeyBind.wasPressed()) {
+            if (client.player.getInventory().contains(PortableTags.PORTABLE_FURNACE))
+                ServiceHelper.CLIENT_PLATFORM_HELPER.sendOpenPacket(new OpenPacket(AllTables.FURNACE));
+            else if (client.player.getInventory().contains(PortableTags.PORTABLE_BLAST_FURNACE))
+                ServiceHelper.CLIENT_PLATFORM_HELPER.sendOpenPacket(new OpenPacket(AllTables.BLAST));
+            else if (client.player.getInventory().contains(PortableTags.PORTABLE_SMOKER))
+                ServiceHelper.CLIENT_PLATFORM_HELPER.sendOpenPacket(new OpenPacket(AllTables.SMOKER));
         }
         if(client.player != null && client.currentScreen != null && client.player.getInventory().contains(PortableTags.PORTABLE_WORKBENCH)) {
             client.currentScreen.children().forEach(clickableWidget -> {
