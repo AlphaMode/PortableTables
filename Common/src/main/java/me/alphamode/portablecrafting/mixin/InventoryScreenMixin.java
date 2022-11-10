@@ -1,12 +1,11 @@
-package me.alphamode.portablecrafting.fabric.mixin;
+package me.alphamode.portablecrafting.mixin;
 
 import me.alphamode.portablecrafting.client.PortableWidget;
 import me.alphamode.portablecrafting.tables.AllTables;
-import net.fabricmc.fabric.api.client.screen.v1.Screens;
+import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
-import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.text.Text;
@@ -26,9 +25,9 @@ public abstract class InventoryScreenMixin extends HandledScreen<PlayerScreenHan
         super(screenHandler, playerInventory, text);
     }
 
-    @Inject(method = "method_19891", at = @At("RETURN"))
-    public void onOpen(CallbackInfo ci) {
-        for (ClickableWidget widget : Screens.getButtons(this)) {
+    @Inject(method = {"lambda$init$0", "m_98879_", "method_19891"}, at = @At("RETURN"))
+    private void onOpen(CallbackInfo ci) {
+        for (Element widget : children()) {
             if(widget instanceof PortableWidget craftingWidget) {
                 if (recipeBook.isOpen()) {
                     craftingWidget.setPos(this.width / 2 + (craftingWidget.getTableType() == AllTables.CRAFTING ? 120 : 140), this.height / 2 - 20);
