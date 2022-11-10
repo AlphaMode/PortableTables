@@ -6,7 +6,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.GrindstoneScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
-import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 
 public class PortableGrindstoneScreenHandler extends GrindstoneScreenHandler {
     public PortableGrindstoneScreenHandler(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
@@ -19,6 +19,6 @@ public class PortableGrindstoneScreenHandler extends GrindstoneScreenHandler {
     }
 
     public static void openTable(PlayerEntity player, Void context) {
-        player.openHandledScreen(new SimpleNamedScreenHandlerFactory(PortableGrindstoneScreenHandler::new, Text.translatable("container.grindstone_title")));
+        player.openHandledScreen(new SimpleNamedScreenHandlerFactory(PortableGrindstoneScreenHandler::new, new TranslatableText("container.grindstone_title")));
     }
 }

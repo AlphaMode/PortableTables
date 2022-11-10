@@ -9,8 +9,8 @@ import me.alphamode.portablecrafting.tables.furnace.client.PortableFurnaceScreen
 import me.alphamode.portablecrafting.tables.furnace.client.PortableFurnaceTooltipData;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.client.ClientRegistry;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -23,19 +23,10 @@ public class ForgePortableTablesClient {
         HandledScreens.<PortableFurnaceScreenHandler, PortableFurnaceScreen>register(PortableTables.PORTABLE_FURNACE_HANDLER.get(), PortableFurnaceScreen::new);
 
         PortableFurnaceHandler.init();
+        ClientRegistry.registerKeyBinding(PortableTablesClient.craftingKeyBind);
+        ClientRegistry.registerKeyBinding(PortableTablesClient.furnaceKeyBind);
+        MinecraftForgeClient.registerTooltipComponentFactory(PortableFurnaceTooltipData.class, FurnaceTooltipComponent::new);
 
         MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
     }
-
-    @SubscribeEvent
-    static void registerKeyBinding(RegisterKeyMappingsEvent event) {
-        event.register(PortableTablesClient.craftingKeyBind);
-        event.register(PortableTablesClient.furnaceKeyBind);
-    }
-
-    @SubscribeEvent
-    static void tooltipData(RegisterClientTooltipComponentFactoriesEvent event) {
-        event.register(PortableFurnaceTooltipData.class, FurnaceTooltipComponent::new);
-    }
-
 }

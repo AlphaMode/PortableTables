@@ -18,7 +18,7 @@ public class ClientEventHandler {
     }
 
     @SubscribeEvent
-    void afterScreenInit(ScreenEvent.Init.Post event) {
+    void afterScreenInit(ScreenEvent.InitScreenEvent.Post event) {
         PortableTablesClient.onAfterScreenInit(event.getScreen(), event::addListener);
     }
 }

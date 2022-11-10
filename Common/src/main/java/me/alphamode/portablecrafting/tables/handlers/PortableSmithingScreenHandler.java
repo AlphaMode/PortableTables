@@ -6,7 +6,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.screen.SmithingScreenHandler;
-import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 
 public class PortableSmithingScreenHandler extends SmithingScreenHandler {
     public PortableSmithingScreenHandler(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
@@ -19,6 +19,6 @@ public class PortableSmithingScreenHandler extends SmithingScreenHandler {
     }
 
     public static void openTable(PlayerEntity player, Void context) {
-        player.openHandledScreen(new SimpleNamedScreenHandlerFactory(PortableSmithingScreenHandler::new, Text.translatable("container.upgrade")));
+        player.openHandledScreen(new SimpleNamedScreenHandlerFactory(PortableSmithingScreenHandler::new, new TranslatableText("container.upgrade")));
     }
 }

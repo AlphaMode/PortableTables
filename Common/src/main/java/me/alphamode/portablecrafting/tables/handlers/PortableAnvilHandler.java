@@ -3,9 +3,6 @@ package me.alphamode.portablecrafting.tables.handlers;
 import com.google.common.collect.ImmutableList;
 import me.alphamode.portablecrafting.PortableTags;
 import me.alphamode.portablecrafting.tables.PortableAnvil;
-import net.minecraft.block.AnvilBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -14,10 +11,8 @@ import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.math.Direction;
-import org.jetbrains.annotations.Nullable;
 
 public class PortableAnvilHandler extends AnvilScreenHandler {
     protected ItemStack anvilStack;
@@ -59,6 +54,6 @@ public class PortableAnvilHandler extends AnvilScreenHandler {
     }
 
     public static void openTable(PlayerEntity player, ItemStack context) {
-        player.openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, inv, player1) -> new PortableAnvilHandler(syncId, inv, player1, context), Text.translatable("container.repair")));
+        player.openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, inv, player1) -> new PortableAnvilHandler(syncId, inv, player1, context), new TranslatableText("container.repair")));
     }
 }

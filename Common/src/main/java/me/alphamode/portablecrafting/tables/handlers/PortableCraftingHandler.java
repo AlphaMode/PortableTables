@@ -7,7 +7,7 @@ import net.minecraft.screen.CraftingScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.stat.Stats;
-import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 
 public class PortableCraftingHandler extends CraftingScreenHandler {
 
@@ -21,7 +21,7 @@ public class PortableCraftingHandler extends CraftingScreenHandler {
     }
 
     public static void openTable(PlayerEntity player, Void context) {
-        player.openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, inventory, playerEntity) -> new PortableCraftingHandler(syncId, inventory, ScreenHandlerContext.create(playerEntity.world, playerEntity.getBlockPos())), Text.translatable("container.crafting")));
+        player.openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, inventory, playerEntity) -> new PortableCraftingHandler(syncId, inventory, ScreenHandlerContext.create(playerEntity.world, playerEntity.getBlockPos())), new TranslatableText("container.crafting")));
         player.incrementStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
     }
 }

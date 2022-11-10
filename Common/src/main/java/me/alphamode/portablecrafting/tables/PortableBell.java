@@ -46,7 +46,7 @@ public class PortableBell extends Item {
             bell.setNbt(nbt);
 
             world.playSoundFromEntity(user, user, SoundEvents.BLOCK_BELL_USE, SoundCategory.BLOCKS, 2.0F, 1.0F);
-            world.emitGameEvent(user, GameEvent.ENTITY_INTERACT, user.getBlockPos());
+            world.emitGameEvent(user, GameEvent.RING_BELL, user.getBlockPos());
             user.incrementStat(Stats.BELL_RING);
             return TypedActionResult.success(bell);
 

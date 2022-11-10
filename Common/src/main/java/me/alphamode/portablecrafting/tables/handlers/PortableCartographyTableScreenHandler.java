@@ -6,7 +6,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.CartographyTableScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
-import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 
 public class PortableCartographyTableScreenHandler extends CartographyTableScreenHandler {
     public PortableCartographyTableScreenHandler(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
@@ -19,6 +19,6 @@ public class PortableCartographyTableScreenHandler extends CartographyTableScree
     }
 
     public static void openTable(PlayerEntity player, Void context) {
-        player.openHandledScreen(new SimpleNamedScreenHandlerFactory(PortableCartographyTableScreenHandler::new, Text.translatable("container.cartography_table")));
+        player.openHandledScreen(new SimpleNamedScreenHandlerFactory(PortableCartographyTableScreenHandler::new, new TranslatableText("container.cartography_table")));
     }
 }

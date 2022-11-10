@@ -6,7 +6,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.LoomScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
-import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 
 public class PortableLoomScreenHandler extends LoomScreenHandler {
     public PortableLoomScreenHandler(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
@@ -19,6 +19,6 @@ public class PortableLoomScreenHandler extends LoomScreenHandler {
     }
 
     public static void openTable(PlayerEntity player, Void context) {
-        player.openHandledScreen(new SimpleNamedScreenHandlerFactory(PortableLoomScreenHandler::new, Text.translatable("container.loom")));
+        player.openHandledScreen(new SimpleNamedScreenHandlerFactory(PortableLoomScreenHandler::new, new TranslatableText("container.loom")));
     }
 }

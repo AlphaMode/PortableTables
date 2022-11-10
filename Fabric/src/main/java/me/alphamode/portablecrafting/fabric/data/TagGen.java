@@ -8,9 +8,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.registry.Registry;
 
-public class TagGen extends FabricTagProvider<Item> {
+public class TagGen extends FabricTagProvider.ItemTagProvider {
     protected TagGen(FabricDataGenerator dataGenerator) {
-        super(dataGenerator, Registry.ITEM);
+        super(dataGenerator);
     }
 
     @Override

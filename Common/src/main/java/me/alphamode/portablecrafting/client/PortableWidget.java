@@ -9,6 +9,7 @@ import net.minecraft.client.gui.screen.narration.NarrationPart;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Item;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 
 public class PortableWidget extends ClickableWidget {
@@ -18,7 +19,7 @@ public class PortableWidget extends ClickableWidget {
     private final AllTables type;
 
     public PortableWidget(Item item, AllTables type) {
-        super(0,0, 15, 15, Text.empty());
+        super(0,0, 15, 15, LiteralText.EMPTY);
         this.item = item;
         this.type = type;
     }
@@ -29,7 +30,7 @@ public class PortableWidget extends ClickableWidget {
 
     @Override
     public void appendNarrations(NarrationMessageBuilder builder) {
-        builder.put(NarrationPart.USAGE, Text.empty());
+        builder.put(NarrationPart.USAGE, LiteralText.EMPTY);
     }
 
     @Override

@@ -1,10 +1,11 @@
 package me.alphamode.portablecrafting.forge;
 
-import com.mojang.bridge.game.PackType;
 import me.alphamode.portablecrafting.PortableTables;
 import me.alphamode.portablecrafting.forge.network.ForgeNetwork;
 import me.alphamode.portablecrafting.services.ServiceHelper;
-import me.alphamode.portablecrafting.tables.*;
+import me.alphamode.portablecrafting.tables.AllTables;
+import me.alphamode.portablecrafting.tables.PortableAnvil;
+import me.alphamode.portablecrafting.tables.PortableTable;
 import me.alphamode.portablecrafting.tables.furnace.PortableFurnaceScreenHandler;
 import me.alphamode.portablecrafting.tables.handlers.*;
 import net.minecraft.item.Item;
@@ -14,7 +15,7 @@ import net.minecraft.resource.ResourcePackSource;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.resource.metadata.PackResourceMetadata;
 import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.text.Text;
+import net.minecraft.text.LiteralText;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
@@ -22,14 +23,14 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.resource.PathPackResources;
+import net.minecraftforge.resource.PathResourcePack;
 
 import java.io.IOException;
 
 @Mod(PortableTables.MOD_ID)
 public class ForgePortableTables {
     private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, PortableTables.MOD_ID);
-    private static final DeferredRegister<ScreenHandlerType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, PortableTables.MOD_ID);
+    private static final DeferredRegister<ScreenHandlerType<?>> MENUS = DeferredRegister.create(ForgeRegistries.CONTAINERS, PortableTables.MOD_ID);
 
     public ForgePortableTables() {
         PortableTables.init();
@@ -63,12 +64,12 @@ public class ForgePortableTables {
         try {
             if (event.getPackType() == ResourceType.CLIENT_RESOURCES) {
                 var resourcePath = ModList.get().getModFileById(PortableTables.MOD_ID).getFile().findResource("classic");
-                var pack = new PathPackResources(ModList.get().getModFileById(PortableTables.MOD_ID).getFile().getFileName() + ":" + resourcePath, resourcePath);
+                var pack = new PathResourcePack(ModList.get().getModFileById(PortableTables.MOD_ID).getFile().getFileName() + ":" + resourcePath, resourcePath);
                 PackResourceMetadata metadataSection = pack.parseMetadata(PackResourceMetadata.READER);
                 if (metadataSection != null) {
                     event.addRepositorySource((packConsumer, packConstructor) ->
                             packConsumer.accept(packConstructor.create(
-                                    PortableTables.MOD_ID + ":classic", Text.literal("Portable Tables Programmer Art"), false,
+                                    PortableTables.MOD_ID + ":classic", new LiteralText("Portable Tables Programmer Art"), false,
                                     () -> pack, metadataSection, ResourcePackProfile.InsertionPosition.TOP, ResourcePackSource.PACK_SOURCE_BUILTIN, false)));
                 }
             }
