@@ -1,15 +1,15 @@
 {
   "replace": false,
   "values": [
-    "#c:portable_workbench",
-    "#c:portable_furnace",
-    "#c:portable_anvil",
-    "#c:portable_smithing",
-    "#c:portable_loom",
-    "#c:portable_grindstone",
-    "#c:portable_catography_table",
-    "#c:portable_stonecutter",
-    "portable_tables:portable_smoker",
-    "portable_tables:portable_blast_furnace"
+    "#c:portable/workbench",
+    "#c:portable/furnace",
+    "#c:portable/smoker",
+    "#c:portable/blast_furnace",
+    "#c:portable/anvil",
+    "#c:portable/smithing",
+    "#c:portable/loom",
+    "#c:portable/grindstone",
+    "#c:portable/catography_table",
+    "#c:portable/stonecutter"
   ]
 }

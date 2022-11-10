@@ -8,18 +8,24 @@ import net.minecraft.util.registry.Registry;
 public class PortableTags {
 
     public static final TagKey<Item> PORTABLE_TABLES = TagKey.of(Registry.ITEM_KEY, new Identifier("c:portable_tables"));
-    public static final TagKey<Item> PORTABLE_WORKBENCH = TagKey.of(Registry.ITEM_KEY, new Identifier("c:portable_workbench"));
-    public static final TagKey<Item> PORTABLE_FURNACE = TagKey.of(Registry.ITEM_KEY, new Identifier("c:portable_furnace"));
-    public static final TagKey<Item> PORTABLE_ANVIL = TagKey.of(Registry.ITEM_KEY, new Identifier("c:portable_anvil"));
-    public static final TagKey<Item> PORTABLE_SMITHING = TagKey.of(Registry.ITEM_KEY, new Identifier("c:portable_smithing"));
-    public static final TagKey<Item> PORTABLE_LOOM = TagKey.of(Registry.ITEM_KEY, new Identifier("c:portable_loom"));
-    public static final TagKey<Item> PORTABLE_GRINDSTONE = TagKey.of(Registry.ITEM_KEY, new Identifier("c:portable_grindstone"));
-    public static final TagKey<Item> PORTABLE_CARTOGRAPHY_TABLE = TagKey.of(Registry.ITEM_KEY, new Identifier("c:portable_catography_table"));
-    public static final TagKey<Item> PORTABLE_STONECUTTER = TagKey.of(Registry.ITEM_KEY, new Identifier("c:portable_stonecutter"));
+    public static final TagKey<Item> PORTABLE_WORKBENCH = portableTag("workbench");
+    public static final TagKey<Item> PORTABLE_FURNACE = portableTag("furnace");
+    public static final TagKey<Item> PORTABLE_SMOKER = portableTag("smoker");
+    public static final TagKey<Item> PORTABLE_BLAST_FURNACE= portableTag("blast_furnace");
+    public static final TagKey<Item> PORTABLE_ANVIL = portableTag("anvil");
+    public static final TagKey<Item> PORTABLE_SMITHING = portableTag("smithing");
+    public static final TagKey<Item> PORTABLE_LOOM = portableTag("loom");
+    public static final TagKey<Item> PORTABLE_GRINDSTONE = portableTag("grindstone");
+    public static final TagKey<Item> PORTABLE_CARTOGRAPHY_TABLE = portableTag("catography_table");
+    public static final TagKey<Item> PORTABLE_STONECUTTER = portableTag("stonecutter");
     public static final TagKey<Item> WORKBENCH = TagKey.of(Registry.ITEM_KEY, new Identifier("c:workbench"));
     public static final TagKey<Item> WORKBENCHES = TagKey.of(Registry.ITEM_KEY, new Identifier("c:workbenches"));
     public static final TagKey<Item> STICKS = TagKey.of(Registry.ITEM_KEY, new Identifier("c:wood_sticks"));
     public static final TagKey<Item> WOODEN_RODS = TagKey.of(Registry.ITEM_KEY, new Identifier("c:wooden_rods"));
+
+    public static TagKey<Item> portableTag(String path) {
+        return TagKey.of(Registry.ITEM_KEY, new Identifier("c", "portable/" + path));
+    }
 
     public static void registerTags() {}
 }
