@@ -1,9 +1,19 @@
 {
+  "item.portable_tables.portable_anvil": "Портативная наковальня",
+  "item.portable_tables.portable_chipped_anvil": "Повреждённая портативная наковальня",
+  "item.portable_tables.portable_damaged_anvil": "Разбитая портативная наковальня",
+  "item.portable_tables.portable_blast_furnace": "Портативнвя плавильная печь",
+  "item.portable_tables.portable_cartography_table": "Портативный стол картографа",
   "item.portable_tables.portable_crafting_table": "Портативный верстак",
   "item.portable_tables.portable_furnace": "Портативная печь",
-  "item.portable_tables.portable_blast_furnace": "Портативная плавильная печь",
+  "item.portable_tables.portable_grindstone": "Портативное точило",
+  "item.portable_tables.portable_loom": "Портативный ткацкий станок",
+  "item.portable_tables.portable_smithing": "Портативный стол кузнеца",
   "item.portable_tables.portable_smoker": "Портативная коптильня",
-  "key.portable_tables.open_craft": "Открыть портативный верстак",
+  "item.portable_tables.portable_stonecutter": "Портативная камнерез",
+  "item.portable_tables.portable_bell": "Портативная колокол",
+  "itemGroup.portable_tables.tables": "Портативные верстаки",
   "key.categories.portable_tables": "Портативные верстаки",
-  "itemGroup.portable_tables.tables": "Портативные верстаки"
+  "key.portable_tables.open_craft": "Открыть портативный верстак",
+  "key.portable_tables.open_furnace": "Открыть портативную печь"
 }
