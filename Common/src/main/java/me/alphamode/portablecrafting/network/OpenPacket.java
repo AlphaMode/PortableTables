@@ -2,8 +2,8 @@ package me.alphamode.portablecrafting.network;
 
 
 import me.alphamode.portablecrafting.tables.AllTables;
-import me.alphamode.portablecrafting.tables.handlers.PortableCraftingHandler;
 import me.alphamode.portablecrafting.tables.furnace.PortableFurnaceScreenHandler;
+import me.alphamode.portablecrafting.tables.handlers.PortableCraftingHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 

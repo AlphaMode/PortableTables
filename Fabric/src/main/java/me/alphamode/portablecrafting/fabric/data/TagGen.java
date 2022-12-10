@@ -2,19 +2,20 @@ package me.alphamode.portablecrafting.fabric.data;
 
 import me.alphamode.portablecrafting.PortableTables;
 import me.alphamode.portablecrafting.PortableTags;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.minecraft.item.Item;
 import net.minecraft.item.Items;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.RegistryWrapper;
 
-public class TagGen extends FabricTagProvider<Item> {
-    protected TagGen(FabricDataGenerator dataGenerator) {
-        super(dataGenerator, Registry.ITEM);
+import java.util.concurrent.CompletableFuture;
+
+public class TagGen extends FabricTagProvider.ItemTagProvider {
+    protected TagGen(FabricDataOutput dataGenerator, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
+        super(dataGenerator, completableFuture);
     }
 
     @Override
-    protected void generateTags() {
+    protected void configure(RegistryWrapper.WrapperLookup arg) {
         getOrCreateTagBuilder(PortableTags.PORTABLE_WORKBENCH).add(PortableTables.PORTABLE_CRAFTING.get());
         getOrCreateTagBuilder(PortableTags.WOODEN_RODS);
         getOrCreateTagBuilder(PortableTags.STICKS).add(Items.STICK).addTag(PortableTags.WOODEN_RODS);

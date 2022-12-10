@@ -7,22 +7,18 @@ import me.alphamode.portablecrafting.tables.furnace.PortableFurnace;
 import me.alphamode.portablecrafting.tables.furnace.PortableFurnaceScreenHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.AbstractCookingRecipe;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BiConsumer;
 
 public interface PortablePlatformHelper {
-    ItemGroup createGroup(Identifier identifier);
-
     ScreenHandlerType<PortableFurnaceScreenHandler> createPortableHandler();
 
     int getBurnTime(ItemStack stack);

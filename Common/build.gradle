@@ -18,6 +18,8 @@ loom {
             }
         }
     }
+
+    accessWidenerPath = file("src/main/resources/portablecrafting-common.accessWidener")
 }
 
 publishing {

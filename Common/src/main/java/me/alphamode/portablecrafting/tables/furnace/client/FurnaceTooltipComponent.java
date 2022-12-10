@@ -33,7 +33,7 @@ public class FurnaceTooltipComponent implements TooltipComponent {
     @Override
     public void drawItems(TextRenderer textRenderer, int x, int y, MatrixStack matrices, ItemRenderer itemRenderer, int z) {
         // GUI
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
         DrawableHelper.drawTexture(matrices, x, y, 0, 0, 96, 69, 121, 69);

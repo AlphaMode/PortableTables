@@ -1,13 +1,10 @@
 package me.alphamode.portablecrafting.fabric.client;
 
 import me.alphamode.portablecrafting.PortableTables;
-import me.alphamode.portablecrafting.PortableTags;
 import me.alphamode.portablecrafting.client.PortableTablesClient;
 import me.alphamode.portablecrafting.network.SyncPacket;
-import me.alphamode.portablecrafting.tables.AllTables;
 import me.alphamode.portablecrafting.tables.furnace.PortableFurnaceScreenHandler;
 import me.alphamode.portablecrafting.tables.furnace.client.FurnaceTooltipComponent;
-import me.alphamode.portablecrafting.tables.furnace.client.PortableFurnaceHandler;
 import me.alphamode.portablecrafting.tables.furnace.client.PortableFurnaceScreen;
 import me.alphamode.portablecrafting.tables.furnace.client.PortableFurnaceTooltipData;
 import net.fabricmc.api.ClientModInitializer;
@@ -19,10 +16,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
-import net.minecraft.client.option.KeyBinding;
-import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
 public class FabricPortableTablesClient implements ClientModInitializer {

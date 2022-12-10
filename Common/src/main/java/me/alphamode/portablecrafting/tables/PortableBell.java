@@ -1,8 +1,6 @@
 package me.alphamode.portablecrafting.tables;
 
 import me.alphamode.portablecrafting.mixin.accessor.BellBlockEntityAccessor;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.MemoryModuleType;

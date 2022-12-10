@@ -1,24 +1,22 @@
 package me.alphamode.portablecrafting;
 
-import me.alphamode.portablecrafting.services.ServiceHelper;
-import me.alphamode.portablecrafting.tables.*;
-import me.alphamode.portablecrafting.tables.furnace.PortableFurnace;
+import me.alphamode.portablecrafting.tables.AllTables;
+import me.alphamode.portablecrafting.tables.PortableBell;
+import me.alphamode.portablecrafting.tables.PortableTable;
 import me.alphamode.portablecrafting.tables.furnace.PortableFurnaceScreenHandler;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.RecipeType;
+import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.function.Supplier;
 
 public class PortableTables {
     public static final String MOD_ID = "portable_tables";
 
-    public static final ItemGroup TABLE_GROUP = ServiceHelper.PLATFORM_HELPER.createGroup(PortableTables.asResource("tables"));
+    public static final Identifier TABLE_GROUP = PortableTables.asResource("tables");
     
     public static Supplier<PortableTable<Void>> PORTABLE_CRAFTING;
     public static Supplier<PortableTable<ItemStack>> PORTABLE_FURNACE;
@@ -39,6 +37,22 @@ public class PortableTables {
 
     public static void init() {
         PortableTags.registerTags();
+    }
+
+    public static void buildTabContents(FeatureSet enabledFeatures, ItemGroup.Entries entries, boolean operatorEnabled) {
+        entries.add(PORTABLE_CRAFTING.get());
+        entries.add(PORTABLE_FURNACE.get());
+        entries.add(PORTABLE_SMOKER.get());
+        entries.add(PORTABLE_BLAST_FURNACE.get());
+        entries.add(PORTABLE_ANVIL.get());
+        entries.add(PORTABLE_CHIPPED_ANVIL.get());
+        entries.add(PORTABLE_DAMAGED_ANVIL.get());
+        entries.add(PORTABLE_SMITHING.get());
+        entries.add(PORTABLE_LOOM.get());
+        entries.add(PORTABLE_GRINDSTONE.get());
+        entries.add(PORTABLE_CARTOGRAPHY_TABLE.get());
+        entries.add(PORTABLE_STONECUTTER.get());
+        entries.add(PORTABLE_BELL.get());
     }
 
     public static ItemStack findFirstTableTypeInInventory(Inventory inventory, AllTables type) {

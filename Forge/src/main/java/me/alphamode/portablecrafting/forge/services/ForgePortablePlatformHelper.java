@@ -1,6 +1,5 @@
 package me.alphamode.portablecrafting.forge.services;
 
-import me.alphamode.portablecrafting.PortableTables;
 import me.alphamode.portablecrafting.forge.network.ForgeNetwork;
 import me.alphamode.portablecrafting.network.SyncPacket;
 import me.alphamode.portablecrafting.services.PortablePlatformHelper;
@@ -11,7 +10,6 @@ import me.alphamode.portablecrafting.tables.furnace.PortableFurnaceScreenHandler
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.AbstractCookingRecipe;
@@ -19,26 +17,14 @@ import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BiConsumer;
 
 public class ForgePortablePlatformHelper implements PortablePlatformHelper {
-    @Override
-    public ItemGroup createGroup(Identifier identifier) {
-        return new ItemGroup(String.format("%s.%s", identifier.getNamespace(), identifier.getPath())) {
-            @Override
-            public ItemStack createIcon() {
-                return ForgeRegistries.ITEMS.getValue(PortableTables.asResource("portable_crafting_table")).getDefaultStack();
-            }
-        };
-    }
-
     @Override
     public ScreenHandlerType<PortableFurnaceScreenHandler> createPortableHandler() {
         return new ScreenHandlerType<>(PortableFurnaceScreenHandler::new);
@@ -59,7 +45,7 @@ public class ForgePortablePlatformHelper implements PortablePlatformHelper {
                 ItemStack itemStack2 = slots.get(2);
                 if (itemStack2.isEmpty()) {
                     return true;
-                } else if (!itemStack2.isItemEqualIgnoreDamage(itemStack)) {
+                } else if (!itemStack2.isItemEqual(itemStack)) {
                     return false;
                 } else if (itemStack2.getCount() < count && itemStack2.getCount() < itemStack2.getMaxCount()) {
                     return true;

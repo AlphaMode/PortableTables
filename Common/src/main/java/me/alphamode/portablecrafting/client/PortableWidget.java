@@ -29,14 +29,14 @@ public class PortableWidget extends ClickableWidget {
     }
 
     @Override
-    public void appendNarrations(NarrationMessageBuilder builder) {
+    public void appendClickableNarrations(NarrationMessageBuilder builder) {
         builder.put(NarrationPart.USAGE, Text.empty());
     }
 
     @Override
     public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         if(isVisible())
-            MinecraftClient.getInstance().getItemRenderer().renderGuiItemIcon(item.getDefaultStack(),  this.x, isHovered() ? this.y - 1 : this.y);
+            MinecraftClient.getInstance().getItemRenderer().renderGuiItemIcon(item.getDefaultStack(), this.getX(), isHovered() ? this.getY() - 1 : this.getY());
     }
 
     public void setType(AllTables type) {
@@ -47,11 +47,6 @@ public class PortableWidget extends ClickableWidget {
             this.item = Items.BLAST_FURNACE;
         else if (type == AllTables.SMOKER)
             this.item = Items.SMOKER;
-    }
-
-    public void setPos(int x, int y) {
-        this.x = x;
-        this.y = y;
     }
 
     @Override

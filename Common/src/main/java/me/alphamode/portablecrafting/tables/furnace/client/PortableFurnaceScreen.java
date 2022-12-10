@@ -45,7 +45,7 @@ public class PortableFurnaceScreen extends HandledScreen<PortableFurnaceScreenHa
         this.addDrawableChild(new TexturedButtonWidget(this.x + 20, this.height / 2 - 49, 20, 18, 0, 0, 19, RECIPE_BUTTON_TEXTURE, button -> {
             this.recipeBook.toggleOpen();
             this.x = this.recipeBook.findLeftEdge(this.width, this.backgroundWidth);
-            ((TexturedButtonWidget)button).setPos(this.x + 20, this.height / 2 - 49);
+            button.setPos(this.x + 20, this.height / 2 - 49);
         }));
         this.titleX = (this.backgroundWidth - this.textRenderer.getWidth(this.title)) / 2;
     }
@@ -95,7 +95,7 @@ public class PortableFurnaceScreen extends HandledScreen<PortableFurnaceScreenHa
 
     @Override
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
         int i = this.x;
@@ -152,11 +152,5 @@ public class PortableFurnaceScreen extends HandledScreen<PortableFurnaceScreenHa
     @Override
     public RecipeBookWidget getRecipeBookWidget() {
         return this.recipeBook;
-    }
-
-    @Override
-    public void removed() {
-        this.recipeBook.close();
-        super.removed();
     }
 }

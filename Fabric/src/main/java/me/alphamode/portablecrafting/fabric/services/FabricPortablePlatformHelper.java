@@ -8,13 +8,11 @@ import me.alphamode.portablecrafting.tables.AllTables;
 import me.alphamode.portablecrafting.tables.PortableBell;
 import me.alphamode.portablecrafting.tables.furnace.PortableFurnace;
 import me.alphamode.portablecrafting.tables.furnace.PortableFurnaceScreenHandler;
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.AbstractCookingRecipe;
@@ -23,19 +21,12 @@ import net.minecraft.recipe.RecipeType;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BiConsumer;
 
 public class FabricPortablePlatformHelper implements PortablePlatformHelper {
-    @Override
-    public ItemGroup createGroup(Identifier identifier) {
-        return FabricItemGroupBuilder.build(identifier, () -> Registry.ITEM.get(PortableTables.asResource("portable_crafting_table")).getDefaultStack());
-    }
-
     @Override
     public ScreenHandlerType<PortableFurnaceScreenHandler> createPortableHandler() {
         return new ScreenHandlerType<>(PortableFurnaceScreenHandler::new);

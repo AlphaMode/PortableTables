@@ -1,6 +1,5 @@
 package me.alphamode.portablecrafting.tables;
 
-import me.alphamode.portablecrafting.PortableTables;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -19,7 +18,7 @@ public class PortableTable<C> extends Item {
     private final AllTables type;
 
     public PortableTable(BiConsumer<PlayerEntity, C> player, AllTables type, Item.Settings settings) {
-        super(settings.group(PortableTables.TABLE_GROUP));
+        super(settings);
         this.open = player;
         this.type = type;
     }
