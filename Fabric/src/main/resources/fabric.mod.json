@@ -18,9 +18,6 @@
     "main": [
       "me.alphamode.portablecrafting.fabric.FabricPortableTables"
     ],
-    "preLaunch": [
-      "me.alphamode.portablecrafting.fabric.PortableTablesPreLaunch"
-    ],
     "fabric-datagen": [
       "me.alphamode.portablecrafting.fabric.data.DataGen"
     ]
