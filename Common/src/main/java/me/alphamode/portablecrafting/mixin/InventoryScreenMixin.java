@@ -25,7 +25,7 @@ public abstract class InventoryScreenMixin extends HandledScreen<PlayerScreenHan
         super(screenHandler, playerInventory, text);
     }
 
-    @Inject(method = {"lambda$init$0", "m_98879_", "method_19891"}, at = @At("RETURN"))
+    @Inject(method = {"lambda$init$0", "m_260757_", "method_19891"}, at = @At("RETURN"))
     private void onOpen(CallbackInfo ci) {
         for (Element widget : children()) {
             if(widget instanceof PortableWidget craftingWidget) {
