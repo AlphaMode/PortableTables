@@ -26,7 +26,9 @@ public class ForgeNetwork {
         }, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(1, OpenPacket.class, OpenPacket::encode, OpenPacket::new, (syncPacket, contextSupplier) -> {
             NetworkEvent.Context context = contextSupplier.get();
-            syncPacket.handle(context.getSender());
+            context.enqueueWork(() -> {
+                syncPacket.handle(context.getSender());
+            });
             context.setPacketHandled(true);
         }, Optional.of(NetworkDirection.PLAY_TO_SERVER));
     }
