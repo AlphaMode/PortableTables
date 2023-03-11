@@ -1,0 +1,19 @@
+{
+  "item.portable_tables.portable_anvil": "便携式铁砧",
+  "item.portable_tables.portable_chipped_anvil": "开裂的便携式铁砧",
+  "item.portable_tables.portable_damaged_anvil": "损坏的便携式铁砧",
+  "item.portable_tables.portable_blast_furnace": "便携式高炉",
+  "item.portable_tables.portable_cartography_table": "便携式制图台",
+  "item.portable_tables.portable_crafting_table": "便携式工作台",
+  "item.portable_tables.portable_furnace": "便携式熔炉",
+  "item.portable_tables.portable_grindstone": "便携式砂轮",
+  "item.portable_tables.portable_loom": "便携式织布机",
+  "item.portable_tables.portable_smithing": "便携式锻造台",
+  "item.portable_tables.portable_smoker": "便携式烟熏炉",
+  "item.portable_tables.portable_stonecutter": "便携式切石机",
+  "item.portable_tables.portable_bell": "便携式钟",
+  "itemGroup.portable_tables.tables": "便携式功能台",
+  "key.categories.portable_tables": "便携式功能台",
+  "key.portable_tables.open_craft": "打开便携式工作台",
+  "key.portable_tables.open_furnace": "打开便携式熔炉"
+}
