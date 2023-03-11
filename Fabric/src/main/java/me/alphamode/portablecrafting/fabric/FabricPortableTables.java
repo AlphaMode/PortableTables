@@ -26,7 +26,9 @@ public class FabricPortableTables implements ModInitializer {
         PortableTables.init();
         ServerPlayNetworking.registerGlobalReceiver(asResource( "open"), (server, player, handler, buf, responseSender) -> {
             OpenPacket packet = new OpenPacket(buf);
-            packet.handle(player);
+            server.execute(() -> {
+                packet.handle(player);
+            });
         });
 
         PortableTables.PORTABLE_CRAFTING = register(Registry.ITEM, "portable_crafting_table", new PortableTable<>(PortableCraftingHandler::openTable, AllTables.CRAFTING, new Item.Settings()));
