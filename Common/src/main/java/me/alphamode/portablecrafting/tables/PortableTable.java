@@ -19,7 +19,7 @@ public class PortableTable<C> extends Item {
     private final AllTables type;
 
     public PortableTable(BiConsumer<PlayerEntity, C> player, AllTables type, Item.Settings settings) {
-        super(settings.group(PortableTables.TABLE_GROUP));
+        super(settings.group(PortableTables.TABLE_GROUP).maxCount(1));
         this.open = player;
         this.type = type;
     }
