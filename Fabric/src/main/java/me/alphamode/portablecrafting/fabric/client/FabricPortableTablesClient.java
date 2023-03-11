@@ -47,7 +47,7 @@ public class FabricPortableTablesClient implements ClientModInitializer {
 
         ClientPlayNetworking.registerGlobalReceiver(PortableTables.asResource("sync"), (client, handler, buf, responseSender) -> {
             SyncPacket packet = new SyncPacket(buf);
-            packet.handle();
+            client.execute(packet::handle);
         });
     }
 

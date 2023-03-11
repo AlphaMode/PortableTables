@@ -21,7 +21,7 @@ public class ForgeNetwork {
 
     public static void init() {
         CHANNEL.registerMessage(0, SyncPacket.class, SyncPacket::encode, SyncPacket::new, (syncPacket, contextSupplier) -> {
-            syncPacket.handle();
+            contextSupplier.get().enqueueWork(syncPacket::handle);
             contextSupplier.get().setPacketHandled(true);
         }, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
         CHANNEL.registerMessage(1, OpenPacket.class, OpenPacket::encode, OpenPacket::new, (syncPacket, contextSupplier) -> {
