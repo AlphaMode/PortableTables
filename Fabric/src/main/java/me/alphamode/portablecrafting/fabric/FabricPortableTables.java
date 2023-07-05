@@ -54,10 +54,13 @@ public class FabricPortableTables implements ModInitializer {
 
         ResourceManagerHelper.registerBuiltinResourcePack(PortableTables.asResource("classic"), FabricLoader.getInstance().getModContainer(PortableTables.MOD_ID).orElseThrow(), Text.translatable("pack.portable_tables.pack_name"), ResourcePackActivationType.NORMAL);
 
-        FabricItemGroup.builder(PortableTables.TABLE_GROUP)
+        var itemGroup = FabricItemGroup.builder()
                 .icon(() -> PortableTables.PORTABLE_CRAFTING.get().getDefaultStack())
+                .displayName(Text.translatable("itemGroup.portable_tables.tables"))
                 .entries(PortableTables::buildTabContents)
                 .build();
+
+        Registry.register(Registries.ITEM_GROUP, PortableTables.TABLE_GROUP, itemGroup);
     }
 
     public static <V, T extends V> Supplier<T> register(Registry<V> registry, String id, T entry) {

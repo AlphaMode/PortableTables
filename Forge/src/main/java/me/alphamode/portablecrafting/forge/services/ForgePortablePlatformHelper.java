@@ -15,8 +15,13 @@ import net.minecraft.item.Items;
 import net.minecraft.recipe.AbstractCookingRecipe;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
+import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.network.PacketDistributor;
@@ -27,7 +32,7 @@ import java.util.function.BiConsumer;
 public class ForgePortablePlatformHelper implements PortablePlatformHelper {
     @Override
     public ScreenHandlerType<PortableFurnaceScreenHandler> createPortableHandler() {
-        return new ScreenHandlerType<>(PortableFurnaceScreenHandler::new);
+        return new ScreenHandlerType<>(PortableFurnaceScreenHandler::new, FeatureFlags.VANILLA_FEATURES);
     }
 
     @Override
@@ -36,16 +41,16 @@ public class ForgePortablePlatformHelper implements PortablePlatformHelper {
     }
 
     @Override
-    public boolean canAcceptRecipeOutput(@Nullable Recipe<?> recipe, DefaultedList<ItemStack> slots, int count) {
-        if (!slots.get(0).isEmpty() && recipe != null) {
-            ItemStack itemStack = recipe.getOutput();
+    public boolean canAcceptRecipeOutput(DynamicRegistryManager registryManager, @Nullable Recipe<?> recipe, DefaultedList<ItemStack> slots, int count) {
+        if (!((ItemStack)slots.get(0)).isEmpty() && recipe != null) {
+            ItemStack itemStack = recipe.getOutput(registryManager);
             if (itemStack.isEmpty()) {
                 return false;
             } else {
-                ItemStack itemStack2 = slots.get(2);
+                ItemStack itemStack2 = (ItemStack)slots.get(2);
                 if (itemStack2.isEmpty()) {
                     return true;
-                } else if (!itemStack2.isItemEqual(itemStack)) {
+                } else if (!ItemStack.areItemsEqual(itemStack2, itemStack)) {
                     return false;
                 } else if (itemStack2.getCount() < count && itemStack2.getCount() < itemStack2.getMaxCount()) {
                     return true;
@@ -59,18 +64,18 @@ public class ForgePortablePlatformHelper implements PortablePlatformHelper {
     }
 
     @Override
-    public boolean craftRecipe(@Nullable Recipe<?> recipe, DefaultedList<ItemStack> slots, int count) {
-        if (recipe != null && canAcceptRecipeOutput(recipe, slots, count)) {
-            ItemStack itemStack = slots.get(0);
-            ItemStack itemStack2 = recipe.getOutput();
-            ItemStack itemStack3 = slots.get(2);
+    public boolean craftRecipe(DynamicRegistryManager registryManager, @Nullable Recipe<?> recipe, DefaultedList<ItemStack> slots, int count) {
+        if (recipe != null && canAcceptRecipeOutput(registryManager, recipe, slots, count)) {
+            ItemStack itemStack = (ItemStack)slots.get(0);
+            ItemStack itemStack2 = recipe.getOutput(registryManager);
+            ItemStack itemStack3 = (ItemStack)slots.get(2);
             if (itemStack3.isEmpty()) {
                 slots.set(2, itemStack2.copy());
             } else if (itemStack3.isOf(itemStack2.getItem())) {
                 itemStack3.increment(1);
             }
 
-            if (itemStack.isOf(Blocks.WET_SPONGE.asItem()) && !slots.get(1).isEmpty() && slots.get(1).isOf(Items.BUCKET)) {
+            if (itemStack.isOf(Blocks.WET_SPONGE.asItem()) && !((ItemStack)slots.get(1)).isEmpty() && ((ItemStack)slots.get(1)).isOf(Items.BUCKET)) {
                 slots.set(1, new ItemStack(Items.WATER_BUCKET));
             }
 
@@ -104,5 +109,10 @@ public class ForgePortablePlatformHelper implements PortablePlatformHelper {
                 return false;
             }
         };
+    }
+
+    @Override
+    public TagKey<Item> createPortableTag(String path) {
+        return TagKey.of(RegistryKeys.ITEM, new Identifier("forge", "portable/" + path));
     }
 }

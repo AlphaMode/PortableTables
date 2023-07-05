@@ -4,6 +4,7 @@ import me.alphamode.portablecrafting.network.OpenPacket;
 import me.alphamode.portablecrafting.services.ServiceHelper;
 import me.alphamode.portablecrafting.tables.AllTables;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.screen.narration.NarrationPart;
 import net.minecraft.client.gui.widget.ClickableWidget;
@@ -34,9 +35,9 @@ public class PortableWidget extends ClickableWidget {
     }
 
     @Override
-    public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
         if(isVisible())
-            MinecraftClient.getInstance().getItemRenderer().renderGuiItemIcon(item.getDefaultStack(), this.getX(), isHovered() ? this.getY() - 1 : this.getY());
+            context.drawItem(item.getDefaultStack(), this.getX(), isHovered() ? this.getY() - 1 : this.getY());
     }
 
     public void setType(AllTables type) {

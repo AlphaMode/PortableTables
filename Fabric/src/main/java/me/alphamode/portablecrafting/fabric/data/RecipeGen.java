@@ -1,7 +1,7 @@
 package me.alphamode.portablecrafting.fabric.data;
 
 import me.alphamode.portablecrafting.PortableTables;
-import me.alphamode.portablecrafting.PortableTags;
+import me.alphamode.portablecrafting.fabric.PortableTagsFabric;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.advancement.criterion.InventoryChangedCriterion;
@@ -26,15 +26,15 @@ public class RecipeGen extends FabricRecipeProvider {
 
         ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, PortableTables.PORTABLE_CRAFTING.get())
                 .criterion("always", InventoryChangedCriterion.Conditions.items(ItemPredicate.ANY))
-                .input('C', PortableTags.WORKBENCH)
-                .input('S', PortableTags.STICKS)
+                .input('C', PortableTagsFabric.WORKBENCH)
+                .input('S', PortableTagsFabric.STICKS)
                 .pattern(" C")
                 .pattern("S ")
                 .offerTo(exporter, PortableTables.asResource("portable_crafting_table_short"));
         ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, PortableTables.PORTABLE_CRAFTING.get())
                 .criterion("always", InventoryChangedCriterion.Conditions.items(ItemPredicate.ANY))
                 .input('W', ItemTags.PLANKS)
-                .input('S', PortableTags.STICKS)
+                .input('S', PortableTagsFabric.STICKS)
                 .pattern(" WW")
                 .pattern(" WW")
                 .pattern("S  ")
@@ -57,7 +57,7 @@ public class RecipeGen extends FabricRecipeProvider {
         ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, portableTable)
                 .criterion("always", InventoryChangedCriterion.Conditions.items(ItemPredicate.ANY))
                 .input('T', table)
-                .input('S', PortableTags.STICKS)
+                .input('S', PortableTagsFabric.STICKS)
                 .pattern(" T")
                 .pattern("S ")
                 .offerTo(exporter, Registries.ITEM.getId(portableTable));

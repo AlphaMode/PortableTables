@@ -10,15 +10,6 @@ dependencies {
 
 
 loom {
-    sourceSets {
-        main {
-            resources {
-                srcDir("src/generated/resources")
-                exclude("src/generated/resources/.cache")
-            }
-        }
-    }
-
     accessWidenerPath = file("src/main/resources/portablecrafting-common.accessWidener")
 }
 

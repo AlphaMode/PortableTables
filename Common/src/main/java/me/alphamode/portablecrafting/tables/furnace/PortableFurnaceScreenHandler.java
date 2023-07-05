@@ -41,7 +41,7 @@ public class PortableFurnaceScreenHandler extends AbstractRecipeScreenHandler<In
         checkSize(inventory, 3);
         checkDataCount(propertyDelegate, 4);
         this.inventory = inventory;
-        this.world = playerInventory.player.world;
+        this.world = playerInventory.player.getWorld();
         this.addSlot(new StackSlot(playerInventory.player, inventory, 0, 56, 17, pFurnace));
         this.addSlot(new PortableFurnaceFuelSlot(this, inventory, 1, 56, 53, pFurnace));
         this.addSlot(new PortableFurnaceOutputSlot(playerInventory.player, inventory, 2, 116, 35, pFurnace));
@@ -61,8 +61,8 @@ public class PortableFurnaceScreenHandler extends AbstractRecipeScreenHandler<In
     }
 
     @Override
-    public void close(PlayerEntity player) {
-        super.close(player);
+    public void onClosed(PlayerEntity player) {
+        super.onClosed(player);
 
         PortableFurnaceHandler.propertySync.remove(syncId);
     }

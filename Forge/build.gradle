@@ -9,9 +9,26 @@ architectury {
     forge()
 }
 
+def generatedResources = file("src/generated")
+
+sourceSets {
+    main {
+        resources.srcDir generatedResources
+    }
+}
+
 loom {
     forge {
         mixinConfig "portablecrafting-common.mixins.json"
+    }
+
+    runs {
+        data {
+            data()
+            programArgs "--all", "--mod", "portable_tables"
+            programArgs "--output", generatedResources.absolutePath
+            programArgs "--existing", file("../Common/src/main/resources").absolutePath
+        }
     }
 }
 

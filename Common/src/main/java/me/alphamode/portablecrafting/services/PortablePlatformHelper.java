@@ -11,6 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.AbstractCookingRecipe;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.collection.DefaultedList;
@@ -23,13 +25,15 @@ public interface PortablePlatformHelper {
 
     int getBurnTime(ItemStack stack);
 
-    boolean canAcceptRecipeOutput(@Nullable Recipe<?> recipe, DefaultedList<ItemStack> slots, int count);
+    boolean canAcceptRecipeOutput(DynamicRegistryManager registryManager, @Nullable Recipe<?> recipe, DefaultedList<ItemStack> slots, int count);
 
-    boolean craftRecipe(@Nullable Recipe<?> recipe, DefaultedList<ItemStack> slots, int count);
+    boolean craftRecipe(DynamicRegistryManager registryManager, @Nullable Recipe<?> recipe, DefaultedList<ItemStack> slots, int count);
 
     void sendSyncPacket(ServerPlayerEntity serverPlayer, SyncPacket packet);
 
     PortableFurnace createNewPortableFurnace(BiConsumer<PlayerEntity, ItemStack> openContext, RecipeType<? extends AbstractCookingRecipe> furnaceType, AllTables type);
 
     PortableBell createPortableBell(Item.Settings settings);
+
+    TagKey<Item> createPortableTag(String id);
 }

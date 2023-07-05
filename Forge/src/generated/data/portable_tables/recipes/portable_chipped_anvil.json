@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "S": {
+      "tag": "forge:rods/wooden"
+    },
+    "T": {
+      "item": "minecraft:chipped_anvil"
+    }
+  },
+  "pattern": [
+    " T",
+    "S "
+  ],
+  "result": {
+    "item": "portable_tables:portable_chipped_anvil"
+  },
+  "show_notification": true
+}

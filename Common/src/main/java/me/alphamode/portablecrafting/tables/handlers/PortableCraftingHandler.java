@@ -21,7 +21,7 @@ public class PortableCraftingHandler extends CraftingScreenHandler {
     }
 
     public static void openTable(PlayerEntity player, Void context) {
-        player.openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, inventory, playerEntity) -> new PortableCraftingHandler(syncId, inventory, ScreenHandlerContext.create(playerEntity.world, playerEntity.getBlockPos())), Text.translatable("container.crafting")));
+        player.openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, inventory, playerEntity) -> new PortableCraftingHandler(syncId, inventory, ScreenHandlerContext.create(playerEntity.getWorld(), playerEntity.getBlockPos())), Text.translatable("container.crafting")));
         player.incrementStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
     }
 }

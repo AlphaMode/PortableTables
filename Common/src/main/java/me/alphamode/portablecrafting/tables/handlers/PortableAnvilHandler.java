@@ -37,14 +37,14 @@ public class PortableAnvilHandler extends AnvilScreenHandler {
             if (newAnvil == null) {
                 player.getInventory().removeOne(anvilStack);
                 anvilStack = null;
-                this.player.world.playSoundFromEntity(player, player, SoundEvents.BLOCK_ANVIL_DESTROY, SoundCategory.BLOCKS, 1.0F, player.getRandom().nextFloat() * 0.1F + 0.9F);
+                this.player.getWorld().playSoundFromEntity(player, player, SoundEvents.BLOCK_ANVIL_DESTROY, SoundCategory.BLOCKS, 1.0F, player.getRandom().nextFloat() * 0.1F + 0.9F);
             } else {
                 for (DefaultedList<ItemStack> itemStacks: ImmutableList.of(player.getInventory().main, player.getInventory().armor, player.getInventory().offHand)) {
                     for(int i = 0; i < itemStacks.size(); ++i) {
                         if (itemStacks.get(i) == anvilStack) {
                             itemStacks.set(i, newAnvil);
                             anvilStack = newAnvil;
-                            this.player.world.playSoundFromEntity(player, player, SoundEvents.BLOCK_ANVIL_USE, SoundCategory.BLOCKS, 1.0F, player.getRandom().nextFloat() * 0.1F + 0.9F);
+                            this.player.getWorld().playSoundFromEntity(player, player, SoundEvents.BLOCK_ANVIL_USE, SoundCategory.BLOCKS, 1.0F, player.getRandom().nextFloat() * 0.1F + 0.9F);
                             return;
                         }
                     }

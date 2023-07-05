@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "S": {
+      "tag": "c:wood_sticks"
+    },
+    "T": {
+      "item": "minecraft:bell"
+    }
+  },
+  "pattern": [
+    " T",
+    "S "
+  ],
+  "result": {
+    "item": "portable_tables:portable_bell"
+  },
+  "show_notification": true
+}

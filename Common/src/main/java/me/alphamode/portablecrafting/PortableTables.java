@@ -7,7 +7,6 @@ import me.alphamode.portablecrafting.tables.furnace.PortableFurnaceScreenHandler
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 
@@ -35,11 +34,9 @@ public class PortableTables {
     // Handlers
     public static Supplier<ScreenHandlerType<PortableFurnaceScreenHandler>> PORTABLE_FURNACE_HANDLER;
 
-    public static void init() {
-        PortableTags.registerTags();
-    }
+    public static void init() {}
 
-    public static void buildTabContents(FeatureSet enabledFeatures, ItemGroup.Entries entries, boolean operatorEnabled) {
+    public static void buildTabContents(ItemGroup.DisplayContext context, ItemGroup.Entries entries) {
         entries.add(PORTABLE_CRAFTING.get());
         entries.add(PORTABLE_FURNACE.get());
         entries.add(PORTABLE_SMOKER.get());

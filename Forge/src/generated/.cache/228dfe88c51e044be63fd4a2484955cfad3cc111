@@ -1,0 +1,11 @@
+// 1.20.1	2023-07-04T22:18:57.45171755	Tags for minecraft:item mod id portable_tables
+18aeadd9d1f064d1f1a1d61f4fc0b515034608b5 data/forge/tags/items/portable/anvil.json
+4b879b68e47f71f3faed836239935f67d2f0d3f6 data/forge/tags/items/portable/blast_furnace.json
+05884f54f3dfa1d7234bf1db648be4aed0bad362 data/forge/tags/items/portable/catography_table.json
+875b0e6d0e6aa10b7416e50827fa7aa1050d8b43 data/forge/tags/items/portable/furnace.json
+8e573d7f7359f0bcb70cd13acf9805945b15da7c data/forge/tags/items/portable/grindstone.json
+ddb18b6f3272f4c7cbb43c12611dc5ecbf34a6d4 data/forge/tags/items/portable/loom.json
+facc4886c859311827517aee2e46cc8e2a1dc913 data/forge/tags/items/portable/smithing.json
+0ac4125eaf234c2eb6329bb2d1846d6e2348036f data/forge/tags/items/portable/smoker.json
+27714bc5f51aed1ae5382b6c3b2888a71f05483b data/forge/tags/items/portable/stonecutter.json
+7b9c80d6ca1aed36aa7f4b4a3471b2e1c0c35992 data/forge/tags/items/portable/workbench.json

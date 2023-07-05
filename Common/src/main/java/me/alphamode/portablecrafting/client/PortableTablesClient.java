@@ -72,11 +72,11 @@ public class PortableTablesClient {
             PortableWidget craftingWidget = new PortableWidget(Items.CRAFTING_TABLE, AllTables.CRAFTING);
             PortableWidget furnaceWidget = new PortableWidget(Items.FURNACE, AllTables.FURNACE);
             if(inventoryScreen.getRecipeBookWidget().isOpen()) {
-                craftingWidget.setPos(inventoryScreen.width / 2 + 120, inventoryScreen.height / 2 - 21);
-                furnaceWidget.setPos(inventoryScreen.width / 2 + 140, inventoryScreen.height / 2 - 21);
+                craftingWidget.setPosition(inventoryScreen.width / 2 + 120, inventoryScreen.height / 2 - 21);
+                furnaceWidget.setPosition(inventoryScreen.width / 2 + 140, inventoryScreen.height / 2 - 21);
             } else {
-                craftingWidget.setPos(inventoryScreen.width / 2 + 40, inventoryScreen.height / 2 - 21);
-                furnaceWidget.setPos(inventoryScreen.width / 2 + 60, inventoryScreen.height / 2 - 21);
+                craftingWidget.setPosition(inventoryScreen.width / 2 + 40, inventoryScreen.height / 2 - 21);
+                furnaceWidget.setPosition(inventoryScreen.width / 2 + 60, inventoryScreen.height / 2 - 21);
             }
             widgetAdder.accept(craftingWidget);
             widgetAdder.accept(furnaceWidget);

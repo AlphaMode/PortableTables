@@ -30,9 +30,9 @@ public abstract class InventoryScreenMixin extends HandledScreen<PlayerScreenHan
         for (Element widget : children()) {
             if(widget instanceof PortableWidget craftingWidget) {
                 if (recipeBook.isOpen()) {
-                    craftingWidget.setPos(this.width / 2 + (craftingWidget.getTableType() == AllTables.CRAFTING ? 120 : 140), this.height / 2 - 20);
+                    craftingWidget.setPosition(this.width / 2 + (craftingWidget.getTableType() == AllTables.CRAFTING ? 120 : 140), this.height / 2 - 20);
                 } else {
-                    craftingWidget.setPos(this.width / 2 + (craftingWidget.getTableType() == AllTables.CRAFTING ? 40 : 60), this.height / 2 - 20);
+                    craftingWidget.setPosition(this.width / 2 + (craftingWidget.getTableType() == AllTables.CRAFTING ? 40 : 60), this.height / 2 - 20);
                 }
             }
         }

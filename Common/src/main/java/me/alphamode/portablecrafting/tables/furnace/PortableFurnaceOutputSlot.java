@@ -59,7 +59,7 @@ public class PortableFurnaceOutputSlot extends Slot {
 
     @Override
     protected void onCrafted(ItemStack stack) {
-        stack.onCraft(this.player.world, this.player, this.amount);
+        stack.onCraft(this.player.getWorld(), this.player, this.amount);
         if (this.player instanceof ServerPlayerEntity && this.inventory instanceof AbstractFurnaceBlockEntity) {
             ((AbstractFurnaceBlockEntity)this.inventory).dropExperienceForRecipesUsed((ServerPlayerEntity)this.player);
         }

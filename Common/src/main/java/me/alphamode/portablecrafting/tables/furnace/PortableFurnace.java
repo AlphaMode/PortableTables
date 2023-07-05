@@ -85,7 +85,7 @@ public class PortableFurnace extends PortableTable<ItemStack> {
         if (isBurning(burnTime) || !fuelStack.isEmpty() && !inventory.get(0).isEmpty()) {
             Recipe<?> recipe = world.getRecipeManager().getFirstMatch(furnaceType, new SimpleInventory(inventory.get(0), inventory.get(1), inventory.get(2)), world).orElse(null);
             int count = 64;
-            if (!isBurning(burnTime) && ServiceHelper.PLATFORM_HELPER.canAcceptRecipeOutput(recipe, inventory, count)) {
+            if (!isBurning(burnTime) && ServiceHelper.PLATFORM_HELPER.canAcceptRecipeOutput(world.getRegistryManager(), recipe, inventory, count)) {
                 burnTime = getFuelTime(fuelStack);
                 fuelTime = burnTime;
                 if (isBurning(burnTime)) {
@@ -101,12 +101,12 @@ public class PortableFurnace extends PortableTable<ItemStack> {
                     }
                 }
             }
-            if (isBurning(burnTime) && ServiceHelper.PLATFORM_HELPER.canAcceptRecipeOutput(recipe, inventory, count)) {
+            if (isBurning(burnTime) && ServiceHelper.PLATFORM_HELPER.canAcceptRecipeOutput(world.getRegistryManager(), recipe, inventory, count)) {
                 ++cookTime;
                 if (cookTime == cookTimeTotal) {
                     cookTime = 0;
                     cookTimeTotal = getCookTime(world, furnaceType, new SimpleInventory(inventory.get(0), inventory.get(1), inventory.get(2)));
-                    if (ServiceHelper.PLATFORM_HELPER.craftRecipe(recipe, inventory, count)) {
+                    if (ServiceHelper.PLATFORM_HELPER.craftRecipe(world.getRegistryManager(), recipe, inventory, count)) {
                         if (recipe != null) {
                             Identifier identifier = recipe.getId();
                             recipesUsed.addTo(identifier, 1);

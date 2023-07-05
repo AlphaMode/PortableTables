@@ -18,9 +18,14 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.AbstractCookingRecipe;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
+import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,7 +34,7 @@ import java.util.function.BiConsumer;
 public class FabricPortablePlatformHelper implements PortablePlatformHelper {
     @Override
     public ScreenHandlerType<PortableFurnaceScreenHandler> createPortableHandler() {
-        return new ScreenHandlerType<>(PortableFurnaceScreenHandler::new);
+        return new ScreenHandlerType<>(PortableFurnaceScreenHandler::new, FeatureFlags.VANILLA_FEATURES);
     }
 
     @Override
@@ -39,13 +44,13 @@ public class FabricPortablePlatformHelper implements PortablePlatformHelper {
     }
 
     @Override
-    public boolean canAcceptRecipeOutput(@Nullable Recipe<?> recipe, DefaultedList<ItemStack> slots, int count) {
-        return AbstractFurnaceBlockEntityAccessor.callCanAcceptRecipeOutput(recipe, slots, count);
+    public boolean canAcceptRecipeOutput(DynamicRegistryManager registryManager, @Nullable Recipe<?> recipe, DefaultedList<ItemStack> slots, int count) {
+        return AbstractFurnaceBlockEntityAccessor.callCanAcceptRecipeOutput(registryManager, recipe, slots, count);
     }
 
     @Override
-    public boolean craftRecipe(@Nullable Recipe<?> recipe, DefaultedList<ItemStack> slots, int count) {
-        return AbstractFurnaceBlockEntityAccessor.callCraftRecipe(recipe, slots, count);
+    public boolean craftRecipe(DynamicRegistryManager registryManager, @Nullable Recipe<?> recipe, DefaultedList<ItemStack> slots, int count) {
+        return AbstractFurnaceBlockEntityAccessor.callCraftRecipe(registryManager, recipe, slots, count);
     }
 
     @Override
@@ -73,5 +78,10 @@ public class FabricPortablePlatformHelper implements PortablePlatformHelper {
                 return false;
             }
         };
+    }
+
+    @Override
+    public TagKey<Item> createPortableTag(String path) {
+        return TagKey.of(RegistryKeys.ITEM, new Identifier("c", "portable/" + path));
     }
 }

@@ -9,7 +9,9 @@ import me.alphamode.portablecrafting.tables.PortableTable;
 import me.alphamode.portablecrafting.tables.furnace.PortableFurnaceScreenHandler;
 import me.alphamode.portablecrafting.tables.handlers.*;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.resource.ResourcePackProfile;
 import net.minecraft.resource.ResourcePackSource;
 import net.minecraft.resource.ResourceType;
@@ -17,13 +19,13 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraftforge.event.AddPackFindersEvent;
-import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.resource.PathPackResources;
 
 @Mod(PortableTables.MOD_ID)
@@ -60,15 +62,15 @@ public class ForgePortableTables {
         bus.addListener(ForgePortableTables::registerPortableTab);
     }
 
-    public static void registerPortableTab(CreativeModeTabEvent.Register event) {
-        Identifier tabId = PortableTables.asResource("tables");
-        event.registerCreativeModeTab(tabId, builder -> {
-            builder
-                    .icon(() -> PortableTables.PORTABLE_CRAFTING.get().getDefaultStack())
-                    .displayName(Text.translatable("itemGroup.portable_tables.tables"))
-                    .entries(PortableTables::buildTabContents)
-                    .build();
-        });
+    public static void registerPortableTab(RegisterEvent event) {
+        if (event.getRegistryKey().equals(RegistryKeys.ITEM_GROUP)) {
+            Identifier tabId = PortableTables.asResource("tables");
+            event.register(RegistryKeys.ITEM_GROUP, tabId, () -> ItemGroup.builder()
+                        .icon(() -> PortableTables.PORTABLE_CRAFTING.get().getDefaultStack())
+                        .displayName(Text.translatable("itemGroup.portable_tables.tables"))
+                        .entries(PortableTables::buildTabContents)
+                        .build());
+        }
     }
 
     public static void addClassicPack(AddPackFindersEvent event) {
