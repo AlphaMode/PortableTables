@@ -2,10 +2,12 @@ package me.alphamode.portablecrafting.forge.data;
 
 import me.alphamode.portablecrafting.PortableTables;
 import me.alphamode.portablecrafting.PortableTags;
+import me.alphamode.portablecrafting.forge.PortableTagsForge;
 import net.minecraft.data.DataOutput;
 import net.minecraft.data.server.tag.ItemTagProvider;
 import net.minecraft.data.server.tag.TagProvider;
 import net.minecraft.data.server.tag.vanilla.VanillaBlockTagProvider;
+import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
@@ -18,6 +20,7 @@ public class TagGen extends ItemTagProvider {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup arg) {
+        getOrCreateTagBuilder(PortableTagsForge.WORKBENCH).add(Items.CRAFTING_TABLE);
         getOrCreateTagBuilder(PortableTags.PORTABLE_WORKBENCH).add(PortableTables.PORTABLE_CRAFTING.get());
         getOrCreateTagBuilder(PortableTags.PORTABLE_FURNACE).add(PortableTables.PORTABLE_FURNACE.get());
         getOrCreateTagBuilder(PortableTags.PORTABLE_SMOKER).add(PortableTables.PORTABLE_SMOKER.get());
