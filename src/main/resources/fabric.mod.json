@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "portable_tables",
+  "version": "${version}",
+
+  "name": "Legacy",
+  "description": "Legacy console skin for b1.7.3",
+  "authors": [
+    "AlphaMode"
+  ],
+
+  "license": "CC0-1.0",
+  "icon": "assets/examplemod/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "me.alphamode.portabletables.PortableTables"
+    ],
+    "stationapi:event_bus": [
+      "me.alphamode.portabletables.PortableTables",
+      "me.alphamode.portabletables.network.PortablePackets"
+    ],
+    "stationapi:event_bus_client": [
+      "me.alphamode.portabletables.client.PortableTablesClient"
+    ]
+  },
+  "mixins": [
+    "legacy.mixins.json"
+  ],
+  "custom": {
+    "loom:injected_interfaces": {
+      "net/minecraft/class_54": [
+        "me/alphamode/portabletables/ext/PlayerExt"
+      ],
+      "net/minecraft/class_240": [
+        "me/alphamode/portabletables/ext/PacketListenerExt"
+      ]
+    }
+  },
+
+  "depends": {
+    "minecraft": "1.0.0-beta.7.3"
+  }
+}

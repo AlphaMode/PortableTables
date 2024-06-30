@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.alphamode.portabletables.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "client.InventoryScreenMixin",
+    "common.FurnaceTileEntityMixin",
+    "common.ItemInstanceMixin",
+    "common.PacketListenerMixin",
+    "common.PlayerMixin"
+  ],
+  "server": [
+    "server.ServerPlayerMixin"
+  ],
+  "client": [
+    "client.ClientPacketListenerMixin",
+    "client.LocalPlayerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

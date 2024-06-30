@@ -1,0 +1,10 @@
+{
+  "item.portable_tables.portable_crafting_table": "휴대용 제작대",
+  "item.portable_tables.portable_furnace": "휴대용 화로",
+  "item.portable_tables.portable_blast_furnace": "휴대용 용광로",
+  "item.portable_tables.portable_smoker": "휴대용 훈연기",
+  "key.portable_tables.open_craft": "휴대용 제작대 열기",
+  "key.portable_tables.open_furnace": "휴대용 화로 열기",
+  "key.categories.portable_tables": "Portable Tables",
+  "itemGroup.portable_tables.tables": "Portable Tables"
+}
