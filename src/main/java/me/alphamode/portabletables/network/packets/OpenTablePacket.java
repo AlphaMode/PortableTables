@@ -11,7 +11,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 /**
- * Vanilla copy of {@link net.minecraft.network.packets.OpenScreenPacket}
+ * Vanilla copy of {@link net.minecraft.network.packets.ContainerOpenPacket}
  */
 public class OpenTablePacket extends Packet {
     public static final int ID = 253; // IdentifiablePacket is broken ):
@@ -58,11 +58,11 @@ public class OpenTablePacket extends Packet {
 
     @Override
     public void handle(PacketListener handler) {
-
+        handler.handlePortableTable(this);
     }
 
     @Override
-    public int getSize() {
+    public int getEstimatedSize() {
         return 3 + this.title.length();
     }
 }

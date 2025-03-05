@@ -87,18 +87,16 @@ dependencies {
     modImplementation "net.modificationstation:StationAPI:${project.stapi_version}"
 
     // Optional, but convenient mods for mod creators and users alike.
-    modImplementation("com.github.calmilamsy:ModMenu:${project.modmenu_version}") {
-        transitive false
-    }
+    modImplementation("net.glasslauncher.mods:AlwaysMoreItems:${project.alwaysmoreitems_version}")
     modImplementation("net.glasslauncher.mods:GlassConfigAPI:${project.gcapi_version}") {
         transitive false
     }
-    modImplementation("net.glasslauncher:HowManyItems-Fabric-Unofficial:${project.howmanyitems_version}") {
-        transitive false
-    }
-    include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:0.1.1")))
-
-    modImplementation("maven.modrinth:bh-creative:0.4.5")
+//    modImplementation("net.glasslauncher:HowManyItems-Fabric-Unofficial:${project.howmanyitems_version}") {
+//        transitive false
+//    }
+//    include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:0.1.1")))
+//
+    modImplementation("maven.modrinth:bh-creative:0.4.8")
 }
 
 processResources {

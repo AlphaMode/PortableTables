@@ -14,8 +14,10 @@
     "server.ServerPlayerMixin"
   ],
   "client": [
+    "client.AbstractContainerScreenMixin",
     "client.ClientPacketListenerMixin",
-    "client.LocalPlayerMixin"
+    "client.LocalPlayerMixin",
+    "client.MinecraftMixin"
   ],
   "injectors": {
     "defaultRequire": 1

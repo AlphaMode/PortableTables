@@ -7,7 +7,7 @@ import me.alphamode.portabletables.tables.PortableFurnace;
 import me.alphamode.portabletables.tables.menus.PortableCraftingMenu;
 import me.alphamode.portabletables.tables.menus.PortableFurnaceMenu;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.CraftingScreen;
+import net.minecraft.client.gui.screens.inventory.CraftingScreen;
 import net.minecraft.client.gui.screens.inventory.FurnaceScreen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.player.input.Input;

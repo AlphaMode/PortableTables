@@ -7,6 +7,6 @@ import net.modificationstation.stationapi.api.event.network.packet.PacketRegiste
 public class PortablePackets {
     @EventListener
     public void registerPackets(PacketRegisterEvent event) {
-        event.register(OpenTablePacket.ID, true, false, OpenTablePacket.class);
+//        event.register(OpenTablePacket.ID, true, false, OpenTablePacket.class);
     }
 }

@@ -20,7 +20,7 @@ public class PortableButton extends Button {
     @Override
     public void render(Minecraft client, int mouseX, int mouseY) {
         if (this.visible)
-            itemRenderer.renderAndDecorateItem(client.font, client.textureManager, item, this.x, isMouseOver(client, mouseX, mouseY) ? this.y - 1 : this.y);
+            itemRenderer.renderAndDecorateItem(client.font, client.textures, item, this.x, isMouseOver(client, mouseX, mouseY) ? this.y - 1 : this.y);
     }
 
     public void setPos(int x, int y) {

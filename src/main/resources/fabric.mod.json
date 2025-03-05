@@ -3,14 +3,14 @@
   "id": "portable_tables",
   "version": "${version}",
 
-  "name": "Legacy",
-  "description": "Legacy console skin for b1.7.3",
+  "name": "Portable Tables",
+  "description": "A mod thats adds portable workbench's",
   "authors": [
     "AlphaMode"
   ],
 
-  "license": "CC0-1.0",
-  "icon": "assets/examplemod/icon.png",
+  "license": "MIT",
+  "icon": "assets/portable_tables/stationapi/textures/item/portable_crafting_table.png",
 
   "environment": "*",
   "entrypoints": {
@@ -23,10 +23,13 @@
     ],
     "stationapi:event_bus_client": [
       "me.alphamode.portabletables.client.PortableTablesClient"
+    ],
+    "gcapi3": [
+      "me.alphamode.portabletables.PortableTables"
     ]
   },
   "mixins": [
-    "legacy.mixins.json"
+    "portable_tables.mixins.json"
   ],
   "custom": {
     "loom:injected_interfaces": {

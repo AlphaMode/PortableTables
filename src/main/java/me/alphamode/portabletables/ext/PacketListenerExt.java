@@ -5,6 +5,6 @@ import net.minecraft.network.PacketListener;
 
 public interface PacketListenerExt {
     default void handlePortableTable(OpenTablePacket packet) {
-        ((PacketListener) this).handlePacket(packet);
+        ((PacketListener) this).onUnhandledPacket(packet);
     }
 }

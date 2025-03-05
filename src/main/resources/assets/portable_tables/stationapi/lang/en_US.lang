@@ -1,2 +1,4 @@
 item.portable_tables.portable_crafting_table.name=Portable Crafting Table
 item.portable_tables.portable_furnace.name=Portable Furnace
+key.portable_tables.open_craft=Open Portable Crafting Table
+key.portable_tables.open_furnace=Open Portable Furnace

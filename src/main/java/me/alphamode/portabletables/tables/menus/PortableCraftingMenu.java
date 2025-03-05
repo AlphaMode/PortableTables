@@ -15,11 +15,11 @@ public class PortableCraftingMenu extends CraftingMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return player.inventory.contains(new ItemInstance(PortableTables.PORTABLE_CRAFTING));
+        return player.inventory.contains(new ItemInstance(PortableTables.PORTABLE_CRAFTING)) || PortableTables.CONFIG.craftingWidgetAlwaysEnabled;
     }
 
     public static void openTable(Player player, Void v) {
         player.openPortableTable(AllTables.CRAFTING, null);
-//        player.incrementStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
+//        player.awardStat(Stats.INTERACT_WITH_CRAFTING_TABLE);
     }
 }
